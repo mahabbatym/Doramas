@@ -1,0 +1,15 @@
+analyzer:
+  errors:
+    invalid_use_of_visible_for_testing_member: warning
+  exclude:
+    - build/**
+    - web/**
+    - ios/**
+    - macos/**
+linter:
+  rules:
+    - always_use_package_imports
+    - avoid_print
+    - prefer_const_constructors
+    - use_key_in_widget_constructors
+    - avoid_unnecessary_containers

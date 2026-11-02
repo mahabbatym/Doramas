@@ -1,0 +1,401 @@
+{
+  "@@locale": "en",
+  "m000": "Home",
+  "m001": "Catalog",
+  "m002": "Search",
+  "m003": "Favorites",
+  "m004": "Profile",
+  "m005": "Favorites",
+  "m006": "Settings",
+  "m007": "Make it yours ✦",
+  "m008": "Dramas should bring you joy.",
+  "m009": "Preferences",
+  "m010": "Dark theme",
+  "m011": "A cozy palette for the evening",
+  "m012": "Notifications",
+  "m013": "Manage notifications",
+  "m014": "Show spoilers",
+  "m015": "Keep plot secrets protected",
+  "m016": "About",
+  "m017": "Interface language",
+  "m018": "English",
+  "m019": "About DoramaNest",
+  "m020": "Korean and Chinese drama collection",
+  "m021": "Sign out",
+  "m022": "Sign out?",
+  "m023": "Your favorite dramas and reviews will stay on this device.",
+  "m024": "Cancel",
+  "m025": "Sign out",
+  "m026": "My profile",
+  "m027": "Favorites",
+  "m028": "My reviews",
+  "m029": "Categories",
+  "m030": "My space",
+  "m031": "Favorite dramas",
+  "m032": "Favorite stories and bookmarks",
+  "m033": "My discussions",
+  "m034": "Reviews and comments",
+  "m035": "Notifications and privacy",
+  "m036": "Happy stories start here ✦",
+  "m037": "Your drama collection",
+  "m038": "Save stories and come back to them anytime.",
+  "m039": "Browse catalog →",
+  "m040": "To catalog →",
+  "m041": "Stories close to your heart ♡",
+  "m042": "All your favorites, always close by.",
+  "m043": "Find your\nstory ⌕",
+  "m044": "Your next favorite drama is one search away.",
+  "m045": "Title or genre...",
+  "m046": "Results",
+  "m047": "Nothing found",
+  "m048": "Try another title, country, or genre.",
+  "m049": "Clear search",
+  "m050": "Choose by\nyour mood ✧",
+  "m051": "Every story is waiting for its viewer.",
+  "m052": "Found:",
+  "m053": "No stories yet",
+  "m054": "Try choosing another category.",
+  "m055": "More stories ↘",
+  "m056": "By mood",
+  "m057": "All →",
+  "m058": "Popular stories",
+  "m059": "Your next\nlove is waiting!",
+  "m060": "Discover →",
+  "m061": "Stories bring us closer",
+  "m062": "Read reviews and share how you feel ♡",
+  "m063": "Romance",
+  "m064": "Comedy",
+  "m065": "Fantasy",
+  "m066": "Music",
+  "m067": "Korea",
+  "m068": "China",
+  "m069": "All",
+  "resultsCount": "{count, plural, one{{count} drama found} other{{count} dramas found}}",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "m070": "Sign in",
+  "m071": "Create account",
+  "m072": "Welcome\nback!",
+  "m073": "Sign in to save your favorite stories.",
+  "m074": "Password",
+  "m075": "At least 6 characters",
+  "m076": "Enter your email and password",
+  "m077": "Check your email address and try again",
+  "m078": "Forgot password?",
+  "m079": "Signing in…",
+  "m080": "Sign in →",
+  "m081": "or",
+  "m082": "Create account",
+  "m083": "Your drama collection",
+  "m084": "Accept the app rules to continue",
+  "m085": "Shall we begin\nour story? ✨",
+  "m086": "Create a cozy corner for your favorite dramas.",
+  "m087": "Name or nickname",
+  "m088": "For example, dorama.mia",
+  "m089": "I agree to the app rules",
+  "m090": "Creating…",
+  "m091": "Create account →",
+  "m092": "Already have an account? Sign in",
+  "m093": "Skip ›",
+  "m094": "Your stories. Your feelings.\nYour little drama world.",
+  "m095": "Open your world →",
+  "m096": "MADE FOR STORY LOVERS",
+  "m097": "Stories you\nnever want to leave",
+  "m098": "Every drama is\na story to share",
+  "m099": "Share reviews, rate dramas, and meet fellow fans.",
+  "m100": "Continue →",
+  "m101": "Get started ✦",
+  "m102": "Drama reviews",
+  "m103": "Stories are better when shared.",
+  "m104": "Viewer rating",
+  "m105": "+ Write a review",
+  "m106": "No reviews yet",
+  "m107": "Be the first to share how you felt.",
+  "m108": "Review actions",
+  "m109": "Edit",
+  "m110": "Delete",
+  "m111": "Spoiler hidden · Reveal →",
+  "m112": "You can edit this ✎",
+  "m113": "♡ Thanks",
+  "m114": "Delete this review?",
+  "m115": "This action can’t be undone.",
+  "m116": "Review deleted",
+  "m117": "Could not save review",
+  "m118": "New review",
+  "m119": "Edit review",
+  "m120": "Update your review ✎",
+  "m121": "Tell us what you think ✎",
+  "m122": "How did you like it?",
+  "m123": "Not for me",
+  "m124": "Could be better",
+  "m125": "Pretty good!",
+  "m126": "Really liked it",
+  "m127": "Loved it!",
+  "m128": "Your review",
+  "m129": "What surprised you? Which scene stayed with you?",
+  "m130": "Write at least 10 characters",
+  "m131": "Up to 1,000 characters",
+  "m132": "Contains spoilers",
+  "m133": "Hide this text from other viewers",
+  "m134": "Review posted ♡",
+  "m135": "Changes saved ♡",
+  "m136": "About this drama",
+  "m137": "Edit drama",
+  "m138": "Delete drama",
+  "m139": "Update progress",
+  "m140": "Mark episodes watched",
+  "m141": "Find episode 1 ↗",
+  "m142": "Discussion",
+  "m143": "Reviews and spoilers, thoughtfully managed",
+  "m144": "Reviews and ratings →",
+  "m145": "Could not open the link. Try again later.",
+  "m146": "Watch progress",
+  "m147": "Save",
+  "m148": "Related reviews, favorites, and progress will also be deleted.",
+  "m149": "Enter 1 to 500 episodes.",
+  "m150": "Could not save",
+  "m151": "New drama",
+  "m152": "Add a story ✧",
+  "m153": "Update the details ✎",
+  "m154": "This entry will be saved on this device.",
+  "m155": "Title",
+  "m156": "Original title",
+  "m157": "Year",
+  "m158": "Episodes",
+  "m159": "Short description",
+  "m160": "Save to library →",
+  "m161": "Search failed",
+  "m162": "Could not sort the catalog",
+  "m163": "Add a drama",
+  "m164": "By title",
+  "m165": "Newest first",
+  "m166": "By rating",
+  "m167": "Continue watching",
+  "m168": "Hello, {name}! ✳",
+  "@m168": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "m169": "Could not load your local library",
+  "m170": "Close",
+  "m171": "My reviews",
+  "m172": "DORAMA LOVER",
+  "m173": "DORAMANEST · YOUR COZY WORLD",
+  "m174": "♡ Favorite stories are saved on this device.",
+  "m175": "Could not update favorites",
+  "m176": "Welcome\nback!",
+  "m177": "Check your email address and try again",
+  "m178": "Shall we begin\nour story? ✨",
+  "m179": "Your stories. Your feelings.\nYour little drama world.",
+  "m180": "Stories you\nnever want to leave",
+  "m181": "Every drama is\na story to share",
+  "m182": "Related reviews, favorites, and progress will also be deleted.",
+  "m183": "✦ EDITOR'S PICK",
+  "m184": "Moments that stay with us.",
+  "m185": "Discover Korean and Chinese dramas in one cozy place.",
+  "m186": "This field is required",
+  "m187": "Enter your email",
+  "m188": "Enter a valid email, for example hello@example.com",
+  "m189": "Enter your password",
+  "m190": "Password must be at least 6 characters",
+  "m191": "Enter a valid year",
+  "m192": "Enter a number",
+  "m193": "Review",
+  "m194": "Description",
+  "m195": "Name",
+  "m196": "Country",
+  "m197": "Email",
+  "m198": "Welcome\nback!",
+  "m199": "Shall we begin\nour story? ✨",
+  "m200": "Your stories. Your feelings.\nYour little drama world.",
+  "m201": "Stories you\nnever want to leave",
+  "m202": "Every drama is\na story to share",
+  "greeting": "Hello, {name}! ✳",
+  "@greeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "m203": "Moments that stay with us.",
+  "m204": "My review",
+  "m205": "DoramaNest community",
+  "m206": "your opinion matters.",
+  "m207": "🔒 Contains spoilers",
+  "m208": "Saving…",
+  "m209": "Save changes →",
+  "m210": "Post review →",
+  "m211": "Open a drama and share your thoughts.",
+  "m212": "Could not open YouTube. Check your connection and settings.",
+  "episodeCountError": "Episode count must be between 0 and {total}.",
+  "@episodeCountError": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "progressComplete": "All {total} episodes watched",
+  "@progressComplete": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNext": "Continue: episode {episode} of {total}",
+  "@progressNext": {
+    "placeholders": {
+      "episode": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingTooltip": "Rate {stars} stars",
+  "@ratingTooltip": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewCount": "{count, plural, one{# REVIEW} other{# REVIEWS}}",
+  "@reviewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "m213": "Add to favorites",
+  "@m213": {
+    "description": "В избранное"
+  },
+  "m214": "Remove from favorites",
+  "@m214": {
+    "description": "Удалить из избранного"
+  },
+  "m215": "Add to favorites",
+  "@m215": {
+    "description": "Добавить в избранное"
+  },
+  "m216": "Remove from favorites",
+  "@m216": {
+    "description": "Убрать из избранного"
+  },
+  "m217": "Genre",
+  "@m217": {
+    "description": "Жанр"
+  },
+  "m218": "Optional",
+  "@m218": {
+    "description": "Необязательно"
+  },
+  "m219": "For example, My Lovely Runner",
+  "@m219": {
+    "description": "Например, My Lovely Runner"
+  },
+  "m220": "What is this story about?",
+  "@m220": {
+    "description": "О чём эта история?"
+  },
+  "m221": "Enter a valid year",
+  "@m221": {
+    "description": "Укажи корректный год"
+  },
+  "m222": "Your next favorite\nstory awaits!",
+  "@m222": {
+    "description": "Твоя новая\nлюбовь ждёт!"
+  },
+  "m223": "Read reviews and share how you feel ♡",
+  "@m223": {
+    "description": "Читай отзывы и делись эмоциями ♡"
+  },
+  "m225": "Could not sort the catalog:",
+  "@m225": {
+    "description": "Не удалось отсортировать каталог:"
+  },
+  "m226": "Search failed:",
+  "@m226": {
+    "description": "Не удалось выполнить поиск:"
+  },
+  "m227": "Could not save:",
+  "@m227": {
+    "description": "Не удалось сохранить:"
+  },
+  "m228": "Could not update favorites:",
+  "@m228": {
+    "description": "Не удалось сохранить избранное:"
+  },
+  "m229": "Find your next favorite story in the catalog.",
+  "@m229": {
+    "description": "Find your next favorite story in the catalog."
+  },
+  "m230": "Delete this drama?",
+  "@m230": {
+    "description": "Удалить дораму?"
+  },
+  "m231": "Your favorites and reviews will remain on this device.",
+  "@m231": {
+    "description": "Твои избранные дорамы и отзывы останутся на этом устройстве."
+  },
+  "m232": "No reviews yet. Open a drama and share your thoughts!",
+  "@m232": {
+    "description": "Пока нет отзывов. Открой дораму и поделись впечатлением!"
+  },
+  "m233": "Stories to come back to",
+  "@m233": {
+    "description": "Stories to come back to"
+  },
+  "m234": "Follow your favorite stories",
+  "@m234": {
+    "description": "Подпишись на любимые истории"
+  },
+  "m235": "Choose a number from 0 to {total}",
+  "@m235": {
+    "description": "Выберите число от 0 до {total}"
+  },
+  "episodeRange": "Choose a number from 0 to {total}",
+  "@episodeRange": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "m237": "Find your next\nfavorite story ⌕",
+  "@m237": {
+    "description": "Найди свою\nисторию ⌕"
+  },
+  "watchComplete": "{title} · completed",
+  "@watchComplete": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "watchNext": "{title} · episode {episode}",
+  "@watchNext": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "episode": {
+        "type": "int"
+      }
+    }
+  }
+}
