@@ -1,4 +1,4 @@
-# DoramaNest ♡ · Practical work №5
+# DoramaNest ♡ 
 
 **Flutter мобильді қосымшасы** · Figma-дағы `DoramaNest — Practical 2 | Mobile UI` дизайны негізінде.
 
