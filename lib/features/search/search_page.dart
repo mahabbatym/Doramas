@@ -28,8 +28,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final app = AppScope.of(context);
-    if (matches.isEmpty && !searching && search.text.isEmpty)
-      matches = app.dramas;
+    if (!searching && search.text.isEmpty) matches = app.dramas;
     return ListView(padding: pagePadding, children: [
       const SizedBox(height: 23),
       NestPageTitle(
@@ -71,8 +70,9 @@ class _SearchPageState extends State<SearchPage> {
                   : IconButton(
                       icon: const Icon(Icons.close_rounded),
                       onPressed: () {
+                        _debounce?.cancel();
                         search.clear();
-                        setState(() => matches = app.dramas);
+                        setState(() { searching = false; matches = app.dramas; });
                       }))),
       const SizedBox(height: 24),
       Row(children: [
@@ -95,8 +95,9 @@ class _SearchPageState extends State<SearchPage> {
             message: tx(context, 'Попробуй другое название, страну или жанр.'),
             action: tx(context, 'Очистить поиск'),
             onAction: () {
+              _debounce?.cancel();
               search.clear();
-              setState(() {});
+              setState(() { searching = false; matches = app.dramas; });
             }),
       ...matches.map((d) => Padding(
           padding: const EdgeInsets.only(bottom: 12),

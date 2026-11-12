@@ -1,3 +1,4 @@
+import 'package:dorama_nest/features/discovery/dna_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,9 @@ import 'package:dorama_nest/data/api/api_client.dart';
 import 'package:dorama_nest/data/api/api_config.dart';
 import 'package:dorama_nest/data/api/api_exception.dart';
 import 'package:dorama_nest/data/services/supabase_drama_repository.dart';
+import 'package:dorama_nest/data/services/account_repository.dart';
+import 'package:dorama_nest/data/services/auth_repository.dart';
+import 'package:dorama_nest/data/services/secure_auth_storage.dart';
 import 'package:dorama_nest/state/app_controller.dart';
 import 'package:dorama_nest/features/onboarding/welcome_screens.dart';
 import 'package:dorama_nest/features/auth/auth_screens.dart';
@@ -23,49 +27,28 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final config = ApiConfig.fromEnvironment();
   RemoteDramaRepository? remoteRepository;
-  String? remoteUserId;
-  Future<String?> Function()? authenticateAnonymously;
+  AuthRepository? authRepository;
+  AccountRepository? accountRepository;
   ApiFailureKind? startupFailure;
   if (config.isConfigured) {
     try {
-      await Supabase.initialize(
-        url: config.url,
-        publishableKey: config.anonKey,
-      );
-      final auth = Supabase.instance.client.auth;
-      authenticateAnonymously = () async {
-        if (auth.currentSession == null) {
-          final response = await auth
-              .signInAnonymously()
-              .timeout(const Duration(seconds: 10));
-          return response.user?.id;
-        }
-        return auth.currentUser?.id;
-      };
-      try {
-        remoteUserId = await authenticateAnonymously();
-      } on Object {
-        startupFailure = ApiFailureKind.offline;
-      }
-      final preferences = await SharedPreferences.getInstance();
+      final sessionKey = 'sb-${Uri.parse(config.url).host.split('.').first}-auth-token';
+      final storage = SecureAuthStorage(sessionKey: sessionKey);
+      await Supabase.initialize(url: config.url, publishableKey: config.anonKey,
+        authOptions: FlutterAuthClientOptions(localStorage: storage,
+          pkceAsyncStorage: SecurePkceStorage('$sessionKey:pkce', storage.storage)));
+      final client = Supabase.instance.client;
+      final api = ApiClient(config: config, accessToken: () => client.auth.currentSession?.accessToken);
       remoteRepository = SupabaseDramaRepository(
-        preferences: preferences,
-        api: ApiClient(
-          config: config,
-          accessToken: () =>
-              Supabase.instance.client.auth.currentSession?.accessToken,
-        ),
-      );
-    } on Object {
-      startupFailure = ApiFailureKind.unknown;
-    }
-  } else {
-    startupFailure = ApiFailureKind.configuration;
+        preferences: await SharedPreferences.getInstance(), api: api);
+      authRepository = SupabaseAuthRepository(client);
+      accountRepository = SupabaseAccountRepository(api: api, client: client);
+    } catch (_) { startupFailure = ApiFailureKind.configuration; }
   }
   final app = AppController(
     remoteRepository: remoteRepository,
-    remoteUserId: remoteUserId,
-    authenticateAnonymously: authenticateAnonymously,
+    authRepository: authRepository,
+    accountRepository: accountRepository,
     startupFailure: startupFailure,
     cloudConfigured: config.isConfigured,
   );
@@ -73,9 +56,34 @@ Future<void> main() async {
   runApp(DoramaNestApp(controller: app));
 }
 
-class DoramaNestApp extends StatelessWidget {
+class DoramaNestApp extends StatefulWidget {
   final AppController controller;
   const DoramaNestApp({super.key, required this.controller});
+
+  @override
+  State<DoramaNestApp> createState() => _DoramaNestAppState();
+}
+
+class _DoramaNestAppState extends State<DoramaNestApp> {
+  final _navigator = GlobalKey<NavigatorState>();
+  AppController get controller => widget.controller;
+  bool _recoveryShown = false;
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_authNavigation);
+    _authNavigation();
+  }
+  void _authNavigation() {
+    if (!controller.passwordRecovery) { _recoveryShown = false; return; }
+    if (_recoveryShown) return;
+    _recoveryShown = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _navigator.currentState?.pushNamedAndRemoveUntil('/resetPassword', (_) => false);
+    });
+  }
+  @override
+  void dispose() { controller.removeListener(_authNavigation); super.dispose(); }
 
   @override
   Widget build(BuildContext context) => AppScope(
@@ -94,6 +102,7 @@ class DoramaNestApp extends StatelessWidget {
                     controller.darkMode ? Brightness.light : Brightness.dark,
               ));
               return MaterialApp(
+                navigatorKey: _navigator,
                 title: 'DoramaNest',
                 locale: Locale(controller.language),
                 supportedLocales: AppLocalizations.supportedLocales,
@@ -124,6 +133,12 @@ class DoramaNestApp extends StatelessWidget {
                       break;
                     case '/register':
                       page = const RegisterPage();
+                      break;
+                    case '/resetPassword':
+                      page = const ResetPasswordPage();
+                      break;
+                    case '/dna':
+                      page = const DnaPage();
                       break;
                     case '/home':
                       page = MainShell(initialIndex: arg is int ? arg : 0);

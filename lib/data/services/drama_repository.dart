@@ -23,7 +23,7 @@ class DramaRepository {
     _database = await _factory.openDatabase(
       databasePath,
       options: OpenDatabaseOptions(
-        version: 6,
+        version: 7,
         onConfigure: (db) => db.execute('PRAGMA foreign_keys = ON'),
         onCreate: (db, version) => _createSchema(db),
         onUpgrade: (db, oldVersion, newVersion) async {
@@ -50,6 +50,11 @@ class DramaRepository {
             await db.execute(
                 "ALTER TABLE dramas ADD COLUMN translations TEXT NOT NULL DEFAULT '{}' ");
           }
+          if (oldVersion < 7) {
+            await db.execute("ALTER TABLE dramas ADD COLUMN genreSlugs TEXT NOT NULL DEFAULT '[]'");
+            await db.execute("ALTER TABLE watch_progress ADD COLUMN status TEXT NOT NULL DEFAULT 'watching'");
+            await db.execute("UPDATE watch_progress SET status = 'completed' WHERE episodesWatched >= (SELECT episodes FROM dramas WHERE dramas.id = watch_progress.dramaId)");
+          }
         },
       ),
     );
@@ -66,7 +71,7 @@ class DramaRepository {
       country TEXT NOT NULL, year INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'released', genre TEXT NOT NULL REFERENCES genres(name),
       episodes INTEGER NOT NULL CHECK (episodes > 0), score REAL NOT NULL CHECK (score BETWEEN 0 AND 10),
       description TEXT NOT NULL, posterUrl TEXT, backdropUrl TEXT, translations TEXT NOT NULL DEFAULT '{}', symbol TEXT NOT NULL, startColor INTEGER NOT NULL, endColor INTEGER NOT NULL,
-      isCustom INTEGER NOT NULL DEFAULT 0
+      isCustom INTEGER NOT NULL DEFAULT 0, genreSlugs TEXT NOT NULL DEFAULT '[]'
     )''');
     await db.execute(
         'CREATE INDEX dramas_title_idx ON dramas(title COLLATE NOCASE)');
@@ -84,7 +89,8 @@ class DramaRepository {
     )''');
     await db.execute('''CREATE TABLE watch_progress (
       dramaId TEXT PRIMARY KEY REFERENCES dramas(id) ON DELETE CASCADE,
-      episodesWatched INTEGER NOT NULL CHECK (episodesWatched >= 0), updatedAt TEXT NOT NULL
+      episodesWatched INTEGER NOT NULL CHECK (episodesWatched >= 0), updatedAt TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'watching'
     )''');
   }
 
@@ -213,6 +219,10 @@ class DramaRepository {
     return rows.isEmpty ? null : WatchProgress.fromMap(rows.first);
   }
 
+  Future<List<WatchProgress>> allProgress() async =>
+      (await (await _db).query('watch_progress', orderBy: 'updatedAt DESC'))
+          .map(WatchProgress.fromMap).toList();
+
   Future<void> setProgress(WatchProgress progress) async {
     final db = await _db;
     final rows = await db.query('dramas',
@@ -225,7 +235,7 @@ class DramaRepository {
     if (progress.episodesWatched < 0 || progress.episodesWatched > total) {
       throw ArgumentError('Число серий должно быть от 0 до $total.');
     }
-    if (progress.episodesWatched == 0) {
+    if (progress.episodesWatched == 0 && progress.status == WatchStatus.watching) {
       await db.delete('watch_progress',
           where: 'dramaId = ?', whereArgs: [progress.dramaId]);
     } else {

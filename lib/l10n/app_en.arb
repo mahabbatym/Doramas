@@ -397,5 +397,100 @@
         "type": "int"
       }
     }
+  },
+  "continueGuest": "Explore as a guest",
+  "guestName": "Drama lover",
+  "guestLibrary": "Guest library · saved on this device",
+  "signInToSync": "Sign in to sync your library",
+  "confirmEmail": "Check your email to confirm your account, then sign in.",
+  "authInvalid": "Check your email and password.",
+  "authUnconfirmed": "Confirm your email before signing in.",
+  "authRateLimit": "Too many attempts. Please try again later.",
+  "authWeakPassword": "Choose a stronger password.",
+  "authFailed": "Could not sign in. Check your connection and try again.",
+  "resetPassword": "Reset password",
+  "resetEmailSent": "If this address has an account, a recovery link is on its way.",
+  "newPassword": "New password",
+  "passwordUpdated": "Password updated",
+  "accountRequired": "Sign in to publish a review.",
+  "logoutInfo": "Your cloud library stays with your account. Pending changes will retry when you sign back in.",
+  "syncLive": "Library sync is live",
+  "syncConnecting": "Reconnecting to live updates…",
+  "syncPending": "Changes saved here · waiting to sync",
+  "syncBusy": "Syncing your library…",
+  "cloudSetupNeeded": "Cloud features are not ready yet. Your saved changes will retry later.",
+  "dnaTitle": "DORAMA DNA",
+  "dnaSubtitle": "Stories that fit your taste",
+  "dnaOpen": "Discover your match",
+  "dnaColdStart": "Choose genres or save and rate dramas to build your DNA.",
+  "dnaPreferences": "Your favorite genres",
+  "dnaMood": "How do you want to feel?",
+  "dnaAnyMood": "Any mood",
+  "dnaRomantic": "Romantic",
+  "dnaEmotional": "Emotional",
+  "dnaFunny": "Funny",
+  "dnaThriller": "Thriller",
+  "dnaComfort": "Comfort",
+  "dnaExplore": "Explore",
+  "dnaMatch": "{score}% match",
+  "dnaWhy": "Why this story?",
+  "dnaGenreReason": "Genres you enjoy: {genres}",
+  "dnaLengthReason": "Similar episode count to stories you enjoyed",
+  "dnaMoodReason": "Fits the selected mood by genre",
+  "dnaDiscoveryReason": "A chance to explore a different part of the catalog",
+  "dnaMethod": "Match is a similarity index, not a prediction. It combines genre affinity (70%), country preference (15%) and episode length (15%), using only available signals. Favorites, progress, ratings and dropped dramas shape it. Mood filters use genres; completed and dropped dramas are excluded.",
+  "dnaEmpty": "No matches for this mood yet. Try another mood or explore the catalog.",
+  "dnaSignals": "Based on {count} preference signals",
+  "watchPlanned": "Plan to watch",
+  "watchWatching": "Watching",
+  "watchCompleted": "Completed",
+  "watchDropped": "Dropped",
+  "watchStatus": "My watching status",
+  "dramaMissing": "This drama is no longer in the catalog.",
+  "communityLive": "Live community reviews",
+  "communityRating": "Community rating · out of 5",
+  "noRatings": "No ratings yet",
+  "deleteReviewFailed": "Could not delete the review. Please retry.",
+  "catalogSavedCloud": "Changes are saved to the shared catalog.",
+  "genreRomance": "Romance",
+  "genreComedy": "Comedy",
+  "genreFantasy": "Fantasy",
+  "genreMusic": "Music",
+  "genreDrama": "Drama",
+  "genreMystery": "Mystery",
+  "genreFamily": "Family",
+  "genreAction": "Action",
+  "genreThriller": "Thriller",
+  "apiConfiguration": "Cloud access is unavailable. You can still explore as a guest.",
+  "apiOffline": "Offline. Showing saved data; changes will sync after reconnection.",
+  "apiTimeout": "The request timed out. Please retry.",
+  "apiUnauthorized": "Please sign in again to continue syncing.",
+  "apiForbidden": "Your account does not have permission for this action.",
+  "apiNotFound": "This item or cloud feature is unavailable. Please retry later.",
+  "apiConflict": "The data changed. Refresh and try again.",
+  "apiServer": "The server is unavailable. Your saved data is still here.",
+  "apiInvalidRequest": "Check the entered values and try again.",
+  "apiInvalidResponse": "Could not read the server response. Please retry later.",
+  "apiUnknown": "Something went wrong. Please try again.",
+  "@dnaMatch": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "@dnaGenreReason": {
+    "placeholders": {
+      "genres": {
+        "type": "String"
+      }
+    }
+  },
+  "@dnaSignals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

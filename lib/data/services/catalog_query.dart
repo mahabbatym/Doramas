@@ -25,7 +25,7 @@ class CatalogQuery {
     final needle = query.trim().toLowerCase();
     final results = source.where((drama) {
       if (country != null && drama.country != country) return false;
-      if (genre != null && _genreKey(drama.genre) != _genreKey(genre!)) {
+      if (genre != null && !drama.genreKeys.contains(genreKey(genre!))) {
         return false;
       }
       if (year != null && drama.year != year) return false;
@@ -34,7 +34,10 @@ class CatalogQuery {
       return drama.localizedTitle(locale).toLowerCase().contains(needle) ||
           drama.translations.values.any(
               (row) => (row['title'] ?? '').toLowerCase().contains(needle)) ||
-          drama.originalTitle.toLowerCase().contains(needle);
+          drama.originalTitle.toLowerCase().contains(needle) ||
+          drama.genre.toLowerCase().contains(needle) ||
+          drama.genreKeys.any((g) => g.contains(needle)) ||
+          drama.country.toLowerCase().contains(needle) || drama.year.toString() == needle;
     }).toList();
     results.sort((left, right) {
       final compare = switch (sort) {
@@ -50,17 +53,5 @@ class CatalogQuery {
     return results;
   }
 }
-
-String _genreKey(String value) => switch (value.toLowerCase()) {
-      'романтика' || 'romance' || '로맨스' => 'romance',
-      'комедия' || 'comedy' || '코미디' => 'comedy',
-      'фэнтези' || 'fantasy' || '판타지' => 'fantasy',
-      'музыка' || 'music' || '음악' => 'music',
-      'драма' || 'drama' || '드라마' => 'drama',
-      'отбасы' || 'семейная история' || 'family' || '가족' => 'family',
-      'шытырман оқиға' || 'приключения' || 'action' || '액션' => 'action',
-      'детектив' || 'mystery' || '미스터리' => 'mystery',
-      _ => value.toLowerCase(),
-    };
 
 enum CatalogSort { title, releaseYear, rating }

@@ -20,6 +20,7 @@ dependencies:
   cached_network_image: ^4.0.4
   sqflite: ^2.4.1
   path: ^1.9.1
+  flutter_secure_storage: ^11.2.0
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +30,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/art/seoul_evening.jpg
+    - assets/art/community_evening.jpg

@@ -82,7 +82,8 @@ class ApiClient {
       final request = http.Request(method, config.restUri(table, query));
       request.headers.addAll({
         'apikey': config.anonKey,
-        'Authorization': 'Bearer ${_accessToken?.call() ?? config.anonKey}',
+        if (_accessToken?.call() case final String token)
+          'Authorization': 'Bearer $token',
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
       });
@@ -146,4 +147,17 @@ class ApiClient {
   }
 
   void close() => _client.close();
+
+  Future<List<Map<String, dynamic>>> getAllRows(String table,
+      {Map<String, String> query = const {}}) async {
+    final result = <Map<String, dynamic>>[];
+    const pageSize = 200;
+    for (var offset = 0;; offset += pageSize) {
+      final rows = await getRows(table, query: {
+        ...query, 'limit': '$pageSize', 'offset': '$offset',
+      });
+      result.addAll(rows);
+      if (rows.length < pageSize) return result;
+    }
+  }
 }

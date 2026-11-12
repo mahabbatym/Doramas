@@ -70,61 +70,35 @@ void main() {
     repository.api.close();
   });
 
-  test('POST creates a drama and its translations, genre and episodes',
-      () async {
+  test('saves a complete catalog edit in one atomic RPC', () async {
     final requests = <http.Request>[];
     final repository = await _repository((request) async {
       requests.add(request);
-      return _writeResponse(request);
+      return _jsonResponse([{'id': 'server-drama'}], 200);
     });
-
-    final saved = await repository.saveDrama(
-      _drama('local-new'),
-      'kk',
-    );
-
+    final saved = await repository.saveDrama(_drama('local-new'), 'kk');
     expect(saved.id, 'server-drama');
-    expect(
-        requests.any((request) =>
-            request.method == 'POST' && request.url.path.endsWith('/dramas')),
-        isTrue);
-    expect(
-      requests.where((request) =>
-          request.method == 'POST' &&
-          request.url.path.endsWith('/drama_translations')),
-      hasLength(3),
-    );
-    expect(
-      requests.any((request) => request.url.path.endsWith('/episodes')),
-      isTrue,
-    );
+    expect(requests, hasLength(1));
+    expect(requests.single.url.path, '/rest/v1/rpc/save_drama');
+    final document = jsonDecode(requests.single.body)['document'] as Map;
+    expect(document['id'], isNull);
+    expect(document['genre_slugs'], ['romance']);
+    expect(document['translations'].keys, containsAll(['kk','ru','en']));
+    expect(document['episodes'], 1);
     repository.api.close();
   });
 
-  test('PATCH updates a drama and DELETE removes it', () async {
+  test('atomic edit retains ID and deletion is explicitly scoped', () async {
     final requests = <http.Request>[];
     final repository = await _repository((request) async {
       requests.add(request);
-      return _writeResponse(request, hasEpisode: true);
+      return request.method == 'DELETE' ? http.Response('', 204) : _jsonResponse([{'id': 'server-drama'}], 200);
     });
-
     await repository.saveDrama(_drama('server-drama'), 'kk');
     await repository.deleteDrama('server-drama');
-
-    expect(
-      requests.any((request) =>
-          request.method == 'PATCH' &&
-          request.url.path.endsWith('/dramas') &&
-          request.url.queryParameters['id'] == 'eq.server-drama'),
-      isTrue,
-    );
-    expect(
-      requests.any((request) =>
-          request.method == 'DELETE' &&
-          request.url.path.endsWith('/dramas') &&
-          request.url.queryParameters['id'] == 'eq.server-drama'),
-      isTrue,
-    );
+    expect(jsonDecode(requests.first.body)['document']['id'], 'server-drama');
+    expect(requests.last.method, 'DELETE');
+    expect(requests.last.url.queryParameters['id'], 'eq.server-drama');
     repository.api.close();
   });
 }
@@ -142,57 +116,6 @@ Future<SupabaseDramaRepository> _repository(
     ),
     preferences: await SharedPreferences.getInstance(),
   );
-}
-
-http.Response _writeResponse(http.Request request, {bool hasEpisode = false}) {
-  final table = request.url.pathSegments.last;
-  if (request.method == 'GET' && table == 'genres') {
-    return _jsonResponse(
-      [
-        {
-          'id': 'genre-romance',
-          'slug': 'romance',
-          'genre_translations': [
-            {'locale': 'kk', 'name': 'Романтика'},
-          ],
-        },
-      ],
-      200,
-    );
-  }
-  if (request.method == 'GET' && table == 'episodes') {
-    return _jsonResponse(
-      hasEpisode
-          ? [
-              {'id': 'episode-1', 'number': 1}
-            ]
-          : [],
-      200,
-    );
-  }
-  if (request.method == 'POST' && table == 'dramas') {
-    return _jsonResponse([
-      {'id': 'server-drama'}
-    ], 201);
-  }
-  if (request.method == 'PATCH' && table == 'dramas') {
-    return _jsonResponse([
-      {'id': 'server-drama'}
-    ], 200);
-  }
-  if (request.method == 'POST' && table == 'episodes') {
-    final body = jsonDecode(request.body) as List<dynamic>;
-    return _jsonResponse(
-      [
-        for (var index = 0; index < body.length; index++)
-          {'id': 'episode-$index', 'number': body[index]['number']},
-      ],
-      201,
-    );
-  }
-  if (request.method == 'DELETE') return http.Response('', 204);
-  if (request.method == 'POST') return _jsonResponse([], 201);
-  return _jsonResponse({}, 200);
 }
 
 http.Response _jsonResponse(Object body, int status) => http.Response(

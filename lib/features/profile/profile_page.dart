@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/core/widgets/nest_widgets.dart';
-import 'package:dorama_nest/data/services/catalog_data.dart';
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:dorama_nest/state/app_controller.dart';
 import 'package:dorama_nest/core/locale_text.dart';
 
@@ -44,12 +44,13 @@ class ProfilePage extends StatelessWidget {
                   fontWeight: FontWeight.w900))),
       const SizedBox(height: 5),
       Center(
-          child: Text(app.nickname,
+          child: Text(app.nickname.isEmpty ? AppLocalizations.of(context)!.guestName : app.nickname,
               style: Theme.of(context).textTheme.headlineSmall)),
       const SizedBox(height: 7),
       Center(
           child: Text(tx(context, 'Счастливые истории начинаются здесь ✦'),
               style: Theme.of(context).textTheme.bodySmall)),
+      if (!app.loggedIn) TextButton(onPressed: () => Navigator.pushNamed(context, '/login'), child: Text(AppLocalizations.of(context)!.signInToSync)),
       const SizedBox(height: 25),
       Row(children: [
         Expanded(
@@ -95,7 +96,7 @@ class ProfilePage extends StatelessWidget {
                   builder: (sheetContext) => SafeArea(
                       child: Padding(
                           padding: const EdgeInsets.all(20),
-                          child: Column(
+                          child: SingleChildScrollView(child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -105,12 +106,7 @@ class ProfilePage extends StatelessWidget {
                                 const SizedBox(height: 13),
                                 ...app.ownReviews.map((review) => ListTile(
                                     contentPadding: EdgeInsets.zero,
-                                    title: Text(app.dramas
-                                            .where(
-                                                (d) => d.id == review.dramaId)
-                                            .firstOrNull
-                                            ?.title ??
-                                        CatalogData.byId(review.dramaId).title),
+                                    title: Text(app.dramaById(review.dramaId)?.localizedTitle(app.language) ?? AppLocalizations.of(context)!.dramaMissing),
                                     subtitle: Text(review.content,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis),
@@ -120,7 +116,7 @@ class ProfilePage extends StatelessWidget {
                                       Navigator.pushNamed(context, '/reviews',
                                           arguments: review.dramaId);
                                     })),
-                              ]))));
+                              ])))));
             }
           }),
       const SizedBox(height: 10),

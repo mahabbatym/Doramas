@@ -40,11 +40,13 @@ class DramaApiModel {
     return Drama(
       id: json['id']?.toString() ?? '',
       title: translation?['title']?.toString() ?? 'Untitled drama',
-      originalTitle: translation?['title']?.toString() ?? 'Untitled drama',
+      originalTitle: json['original_title']?.toString() ??
+          localizedRow(translations, locale: 'ko', localeKey: 'locale')?['title']?.toString() ?? '',
       country: countryCode == 'CN' ? 'Китай' : 'Корея',
       year: _integer(json['release_year'], fallback: 2000),
       status: json['status']?.toString() ?? 'released',
       genre: genreNames.firstOrNull ?? _slugLabel(links),
+      genreSlugs: links.map((link) => _map(link['genres'])['slug']?.toString()).whereType<String>().toList(),
       episodes: episodeRows.isEmpty ? 1 : episodeRows.length,
       score: _decimal(json['rating'], fallback: 0),
       description: translation?['description']?.toString() ?? '',

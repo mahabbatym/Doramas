@@ -772,4 +772,247 @@ class AppLocalizationsKk extends AppLocalizations {
   String watchNext(String title, int episode) {
     return '$title · $episode-бөлім';
   }
+
+  @override
+  String get continueGuest => 'Қонақ ретінде жалғастыру';
+
+  @override
+  String get guestName => 'Дорама сүйер қауым';
+
+  @override
+  String get guestLibrary => 'Қонақ кітапханасы · осы құрылғыда сақталады';
+
+  @override
+  String get signInToSync => 'Кітапхананы синхрондау үшін кіріңіз';
+
+  @override
+  String get confirmEmail =>
+      'Аккаунтты растау үшін поштаңызды тексеріп, жүйеге кіріңіз.';
+
+  @override
+  String get authInvalid => 'Email мен құпиясөзді тексеріңіз.';
+
+  @override
+  String get authUnconfirmed => 'Кіру алдында email мекенжайын растаңыз.';
+
+  @override
+  String get authRateLimit => 'Әрекет тым көп. Кейінірек қайталаңыз.';
+
+  @override
+  String get authWeakPassword => 'Күрделірек құпиясөз таңдаңыз.';
+
+  @override
+  String get authFailed =>
+      'Кіру мүмкін болмады. Байланысты тексеріп, қайталаңыз.';
+
+  @override
+  String get resetPassword => 'Құпиясөзді қалпына келтіру';
+
+  @override
+  String get resetEmailSent =>
+      'Бұл мекенжайға аккаунт тіркелген болса, қалпына келтіру сілтемесі жіберіледі.';
+
+  @override
+  String get newPassword => 'Жаңа құпиясөз';
+
+  @override
+  String get passwordUpdated => 'Құпиясөз жаңартылды';
+
+  @override
+  String get accountRequired => 'Пікір жариялау үшін кіріңіз.';
+
+  @override
+  String get logoutInfo =>
+      'Бұлттағы кітапхана аккаунтыңызда қалады. Күтудегі өзгерістер қайта кіргенде жіберіледі.';
+
+  @override
+  String get syncLive => 'Кітапхана синхрондалуда';
+
+  @override
+  String get syncConnecting => 'Жаңартуларға қайта қосылуда…';
+
+  @override
+  String get syncPending =>
+      'Өзгерістер құрылғыда сақталды · синхрондау күтілуде';
+
+  @override
+  String get syncBusy => 'Кітапхана синхрондалуда…';
+
+  @override
+  String get cloudSetupNeeded =>
+      'Бұлт мүмкіндіктері әлі дайын емес. Сақталған өзгерістер кейінірек жіберіледі.';
+
+  @override
+  String get dnaTitle => 'DORAMA DNA';
+
+  @override
+  String get dnaSubtitle => 'Талғамыңызға сай хикаялар';
+
+  @override
+  String get dnaOpen => 'Өзіңізге сай дораманы табыңыз';
+
+  @override
+  String get dnaColdStart =>
+      'DNA қалыптастыру үшін жанр таңдаңыз, дорамаларды сақтап, бағалаңыз.';
+
+  @override
+  String get dnaPreferences => 'Сүйікті жанрларыңыз';
+
+  @override
+  String get dnaMood => 'Қандай көңіл күйді қалайсыз?';
+
+  @override
+  String get dnaAnyMood => 'Кез келген';
+
+  @override
+  String get dnaRomantic => 'Романтикалық';
+
+  @override
+  String get dnaEmotional => 'Әсерлі';
+
+  @override
+  String get dnaFunny => 'Көңілді';
+
+  @override
+  String get dnaThriller => 'Шиеленісті';
+
+  @override
+  String get dnaComfort => 'Жайлы';
+
+  @override
+  String get dnaExplore => 'Танысу';
+
+  @override
+  String dnaMatch(int score) {
+    return '$score% сәйкестік';
+  }
+
+  @override
+  String get dnaWhy => 'Неліктен бұл хикая?';
+
+  @override
+  String dnaGenreReason(String genres) {
+    return 'Сіз ұнататын жанрлар: $genres';
+  }
+
+  @override
+  String get dnaLengthReason => 'Ұнатқан хикаяларыңызға ұқсас серия саны';
+
+  @override
+  String get dnaMoodReason => 'Жанры таңдалған көңіл күйге сай';
+
+  @override
+  String get dnaDiscoveryReason =>
+      'Каталогтың басқа жанрларымен танысу мүмкіндігі';
+
+  @override
+  String get dnaMethod =>
+      'Сәйкестік — болжам емес, ұқсастық көрсеткіші. Ол қолжетімді деректер бойынша жанрды (70%), елді (15%) және серия санын (15%) ескереді. Таңдаулылар, прогресс, бағалар мен тоқтатылған дорамалар әсер етеді. Көңіл күй жанрға негізделеді; аяқталған және тоқтатылған дорамалар ұсынылмайды.';
+
+  @override
+  String get dnaEmpty =>
+      'Бұл көңіл күйге сай дорама жоқ. Басқа көңіл күйді не каталогты таңдаңыз.';
+
+  @override
+  String dnaSignals(int count) {
+    return '$count талғам белгісіне негізделген';
+  }
+
+  @override
+  String get watchPlanned => 'Көру жоспарында';
+
+  @override
+  String get watchWatching => 'Көріп жатырмын';
+
+  @override
+  String get watchCompleted => 'Көріп бітірдім';
+
+  @override
+  String get watchDropped => 'Тоқтаттым';
+
+  @override
+  String get watchStatus => 'Көру мәртебем';
+
+  @override
+  String get dramaMissing => 'Бұл дорама каталогта жоқ.';
+
+  @override
+  String get communityLive => 'Қауымдастықтың жаңа пікірлері';
+
+  @override
+  String get communityRating => 'Қауымдастық бағасы · 5 балдан';
+
+  @override
+  String get noRatings => 'Әзірге баға жоқ';
+
+  @override
+  String get deleteReviewFailed => 'Пікірді жою мүмкін болмады. Қайталаңыз.';
+
+  @override
+  String get catalogSavedCloud => 'Өзгерістер ортақ каталогта сақталады.';
+
+  @override
+  String get genreRomance => 'Романтика';
+
+  @override
+  String get genreComedy => 'Комедия';
+
+  @override
+  String get genreFantasy => 'Фэнтези';
+
+  @override
+  String get genreMusic => 'Музыка';
+
+  @override
+  String get genreDrama => 'Драма';
+
+  @override
+  String get genreMystery => 'Детектив';
+
+  @override
+  String get genreFamily => 'Отбасылық';
+
+  @override
+  String get genreAction => 'Экшн';
+
+  @override
+  String get genreThriller => 'Триллер';
+
+  @override
+  String get apiConfiguration =>
+      'Бұлтқа қосылу мүмкін емес. Қонақ ретінде жалғастыра аласыз.';
+
+  @override
+  String get apiOffline =>
+      'Интернет жоқ. Сақталған деректер көрсетіледі; өзгерістер байланыс қалпына келгенде жіберіледі.';
+
+  @override
+  String get apiTimeout => 'Сұрау уақыты аяқталды. Қайталаңыз.';
+
+  @override
+  String get apiUnauthorized => 'Синхрондауды жалғастыру үшін қайта кіріңіз.';
+
+  @override
+  String get apiForbidden => 'Аккаунтыңызда бұл әрекетке рұқсат жоқ.';
+
+  @override
+  String get apiNotFound =>
+      'Бұл жазба немесе бұлт мүмкіндігі қолжетімсіз. Кейінірек қайталаңыз.';
+
+  @override
+  String get apiConflict => 'Деректер өзгерді. Жаңартып, қайталаңыз.';
+
+  @override
+  String get apiServer =>
+      'Сервер қолжетімсіз. Сақталған деректеріңіз сақтаулы.';
+
+  @override
+  String get apiInvalidRequest => 'Енгізілген деректерді тексеріп, қайталаңыз.';
+
+  @override
+  String get apiInvalidResponse =>
+      'Сервер жауабын оқу мүмкін болмады. Кейінірек қайталаңыз.';
+
+  @override
+  String get apiUnknown => 'Қате орын алды. Қайталап көріңіз.';
 }

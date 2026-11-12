@@ -777,4 +777,244 @@ class AppLocalizationsRu extends AppLocalizations {
   String watchNext(String title, int episode) {
     return '$title · серия $episode';
   }
+
+  @override
+  String get continueGuest => 'Продолжить как гость';
+
+  @override
+  String get guestName => 'Любитель дорам';
+
+  @override
+  String get guestLibrary => 'Гостевая библиотека · на этом устройстве';
+
+  @override
+  String get signInToSync => 'Войдите для синхронизации библиотеки';
+
+  @override
+  String get confirmEmail => 'Подтвердите аккаунт по письму, затем войдите.';
+
+  @override
+  String get authInvalid => 'Проверьте email и пароль.';
+
+  @override
+  String get authUnconfirmed => 'Подтвердите email перед входом.';
+
+  @override
+  String get authRateLimit => 'Слишком много попыток. Повторите позже.';
+
+  @override
+  String get authWeakPassword => 'Выберите более надёжный пароль.';
+
+  @override
+  String get authFailed =>
+      'Не удалось войти. Проверьте соединение и повторите.';
+
+  @override
+  String get resetPassword => 'Сбросить пароль';
+
+  @override
+  String get resetEmailSent =>
+      'Если аккаунт существует, на этот адрес придёт ссылка восстановления.';
+
+  @override
+  String get newPassword => 'Новый пароль';
+
+  @override
+  String get passwordUpdated => 'Пароль обновлён';
+
+  @override
+  String get accountRequired => 'Войдите, чтобы опубликовать отзыв.';
+
+  @override
+  String get logoutInfo =>
+      'Облачная библиотека останется в аккаунте. Неотправленные изменения повторятся после входа.';
+
+  @override
+  String get syncLive => 'Синхронизация подключена';
+
+  @override
+  String get syncConnecting => 'Подключаем обновления…';
+
+  @override
+  String get syncPending => 'Изменения сохранены здесь · ожидают синхронизации';
+
+  @override
+  String get syncBusy => 'Синхронизируем библиотеку…';
+
+  @override
+  String get cloudSetupNeeded =>
+      'Облачные функции пока недоступны. Сохранённые изменения отправятся позже.';
+
+  @override
+  String get dnaTitle => 'DORAMA DNA';
+
+  @override
+  String get dnaSubtitle => 'Истории по вашему вкусу';
+
+  @override
+  String get dnaOpen => 'Найти свою дораму';
+
+  @override
+  String get dnaColdStart =>
+      'Выберите жанры, сохраняйте и оценивайте дорамы — так появится ваш DNA.';
+
+  @override
+  String get dnaPreferences => 'Любимые жанры';
+
+  @override
+  String get dnaMood => 'Какое сегодня настроение?';
+
+  @override
+  String get dnaAnyMood => 'Любое';
+
+  @override
+  String get dnaRomantic => 'Романтичное';
+
+  @override
+  String get dnaEmotional => 'Трогательное';
+
+  @override
+  String get dnaFunny => 'Весёлое';
+
+  @override
+  String get dnaThriller => 'Напряжённое';
+
+  @override
+  String get dnaComfort => 'Уютное';
+
+  @override
+  String get dnaExplore => 'Открытие';
+
+  @override
+  String dnaMatch(int score) {
+    return 'Совпадение $score%';
+  }
+
+  @override
+  String get dnaWhy => 'Почему эта история?';
+
+  @override
+  String dnaGenreReason(String genres) {
+    return 'Любимые жанры: $genres';
+  }
+
+  @override
+  String get dnaLengthReason => 'Привычная для вас длина истории';
+
+  @override
+  String get dnaMoodReason => 'Жанр подходит к выбранному настроению';
+
+  @override
+  String get dnaDiscoveryReason => 'Возможность открыть другую часть каталога';
+
+  @override
+  String get dnaMethod =>
+      'Совпадение — индекс сходства, а не прогноз. Он учитывает жанры (70%), страну (15%) и число серий (15%) по доступным сигналам. На него влияют избранное, прогресс, оценки и брошенные дорамы. Настроение фильтрует по жанрам; завершённые и брошенные истории исключены.';
+
+  @override
+  String get dnaEmpty =>
+      'Пока нет подходящих историй. Смените настроение или откройте каталог.';
+
+  @override
+  String dnaSignals(int count) {
+    return 'На основе $count сигналов предпочтений';
+  }
+
+  @override
+  String get watchPlanned => 'Планирую';
+
+  @override
+  String get watchWatching => 'Смотрю';
+
+  @override
+  String get watchCompleted => 'Завершено';
+
+  @override
+  String get watchDropped => 'Брошено';
+
+  @override
+  String get watchStatus => 'Мой статус просмотра';
+
+  @override
+  String get dramaMissing => 'Этой дорамы больше нет в каталоге.';
+
+  @override
+  String get communityLive => 'Отзывы обновляются в реальном времени';
+
+  @override
+  String get communityRating => 'Оценка сообщества · из 5';
+
+  @override
+  String get noRatings => 'Пока нет оценок';
+
+  @override
+  String get deleteReviewFailed => 'Не удалось удалить отзыв. Повторите.';
+
+  @override
+  String get catalogSavedCloud => 'Изменения сохраняются в общем каталоге.';
+
+  @override
+  String get genreRomance => 'Романтика';
+
+  @override
+  String get genreComedy => 'Комедия';
+
+  @override
+  String get genreFantasy => 'Фэнтези';
+
+  @override
+  String get genreMusic => 'Музыка';
+
+  @override
+  String get genreDrama => 'Драма';
+
+  @override
+  String get genreMystery => 'Детектив';
+
+  @override
+  String get genreFamily => 'Семейное';
+
+  @override
+  String get genreAction => 'Экшен';
+
+  @override
+  String get genreThriller => 'Триллер';
+
+  @override
+  String get apiConfiguration =>
+      'Облако недоступно. Можно продолжить как гость.';
+
+  @override
+  String get apiOffline =>
+      'Нет сети. Показаны сохранённые данные; изменения отправятся после подключения.';
+
+  @override
+  String get apiTimeout => 'Время ожидания истекло. Повторите.';
+
+  @override
+  String get apiUnauthorized => 'Войдите снова для продолжения синхронизации.';
+
+  @override
+  String get apiForbidden => 'У аккаунта нет прав на это действие.';
+
+  @override
+  String get apiNotFound =>
+      'Запись или облачная функция недоступна. Повторите позже.';
+
+  @override
+  String get apiConflict => 'Данные изменились. Обновите и повторите.';
+
+  @override
+  String get apiServer =>
+      'Сервер недоступен. Сохранённые данные остаются здесь.';
+
+  @override
+  String get apiInvalidRequest => 'Проверьте введённые данные и повторите.';
+
+  @override
+  String get apiInvalidResponse =>
+      'Не удалось прочитать ответ сервера. Повторите позже.';
+
+  @override
+  String get apiUnknown => 'Не удалось выполнить действие. Повторите.';
 }

@@ -1,3 +1,4 @@
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/locale_text.dart';
 import 'package:dorama_nest/core/validators.dart';
@@ -28,11 +29,13 @@ class _DramaFormPageState extends State<DramaFormPage> {
     'kk': TextEditingController(),
     'ru': TextEditingController(),
     'en': TextEditingController(),
+    'ko': TextEditingController(),
   };
   final _localizedDescriptions = {
     'kk': TextEditingController(),
     'ru': TextEditingController(),
     'en': TextEditingController(),
+    'ko': TextEditingController(),
   };
   String _country = 'Корея';
   String _genre = 'Романтика';
@@ -71,14 +74,15 @@ class _DramaFormPageState extends State<DramaFormPage> {
       _posterUrl.text = drama.posterUrl ?? '';
       _backdropUrl.text = drama.backdropUrl ?? '';
       _country = drama.country;
-      _genre = drama.genre;
+      _genre = switch (drama.genreKeys.first) {
+        'romance' => 'Романтика', 'comedy' => 'Комедия', 'fantasy' => 'Фэнтези',
+        'music' => 'Музыка', 'mystery' => 'Детектив', _ => 'Драма',
+      };
       _status = drama.status;
-      for (final locale in const ['kk', 'ru', 'en']) {
+      for (final locale in const ['kk', 'ru', 'en', 'ko']) {
         final translation = drama.translations[locale];
-        _localizedTitles[locale]!.text = translation?['title'] ??
-            (app.language == locale ? drama.title : '');
-        _localizedDescriptions[locale]!.text = translation?['description'] ??
-            (app.language == locale ? drama.description : '');
+        _localizedTitles[locale]!.text = translation?['title'] ?? '';
+        _localizedDescriptions[locale]!.text = translation?['description'] ?? '';
       }
     }
   }
@@ -126,6 +130,7 @@ class _DramaFormPageState extends State<DramaFormPage> {
             country: _country,
             year: year,
             genre: _genre,
+        genreSlugs: old != null && genreKey(old.genre) == genreKey(_genre) ? old.genreSlugs : [genreKey(_genre)],
             episodes: episodes,
             score: 0,
             description: '',
@@ -134,8 +139,8 @@ class _DramaFormPageState extends State<DramaFormPage> {
             end: const Color(0xFF925A8A));
     final translations = app.cloudConfigured
         ? {
-            for (final locale in const ['kk', 'ru', 'en'])
-              locale: {
+            for (final locale in const ['kk', 'ru', 'en', 'ko'])
+              if (_localizedTitles[locale]!.text.trim().isNotEmpty) locale: {
                 'title': _localizedTitles[locale]!.text.trim(),
                 'description': _localizedDescriptions[locale]!.text.trim(),
               },
@@ -146,7 +151,8 @@ class _DramaFormPageState extends State<DramaFormPage> {
               'description': _description.text.trim(),
             },
           };
-    final activeTranslation = translations[app.language] ?? translations['en']!;
+    if (translations.isEmpty) return;
+    final activeTranslation = translations[app.language] ?? translations['en'] ?? translations.values.first;
     setState(() => _busy = true);
     try {
       await app.saveDrama(Drama(
@@ -162,6 +168,7 @@ class _DramaFormPageState extends State<DramaFormPage> {
         country: _country,
         year: year,
         genre: _genre,
+        genreSlugs: old != null && genreKey(old.genre) == genreKey(_genre) ? old.genreSlugs : [genreKey(_genre)],
         episodes: episodes,
         status: _status,
         score: rating,
@@ -215,11 +222,8 @@ class _DramaFormPageState extends State<DramaFormPage> {
               padding: const EdgeInsets.fromLTRB(23, 20, 23, 32),
               children: [
                 NestPageTitle(
-                    title: widget.dramaId == null
-                        ? 'Добавь историю ✧'
-                        : 'Обнови детали ✎',
-                    subtitle: tx(
-                        context, 'Запись будет сохранена на этом устройстве.')),
+                    title: tx(context, widget.dramaId == null ? 'Добавь историю ✧' : 'Обнови детали ✎'),
+                    subtitle: AppScope.of(context).cloudConfigured ? AppLocalizations.of(context)!.catalogSavedCloud : tx(context, 'Запись будет сохранена на этом устройстве.')),
                 const SizedBox(height: 22),
                 if (!AppScope.of(context).cloudConfigured)
                   NestField(
@@ -238,14 +242,14 @@ class _DramaFormPageState extends State<DramaFormPage> {
                     controller: _original),
                 const SizedBox(height: 15),
                 if (AppScope.of(context).cloudConfigured) ...[
-                  for (final locale in const ['kk', 'ru', 'en']) ...[
+                  for (final locale in const ['kk', 'ru', 'en', 'ko']) ...[
                     NestField(
                       label: localizedDramaFieldLabel(context,
                           locale: locale, description: false),
                       hint: tx(context, 'Например, My Lovely Runner'),
                       controller: _localizedTitles[locale]!,
                       validator: (value) =>
-                          value == null || value.trim().isEmpty
+                          locale == 'en' && (value == null || value.trim().isEmpty)
                               ? tx(context, 'Это поле обязательно')
                               : null,
                     ),
@@ -257,7 +261,7 @@ class _DramaFormPageState extends State<DramaFormPage> {
                       controller: _localizedDescriptions[locale]!,
                       maxLines: 3,
                       validator: (value) =>
-                          value == null || value.trim().isEmpty
+                          locale == 'en' && (value == null || value.trim().isEmpty)
                               ? tx(context, 'Это поле обязательно')
                               : null,
                     ),
@@ -338,7 +342,7 @@ class _DramaFormPageState extends State<DramaFormPage> {
                           const TextInputType.numberWithOptions(decimal: true),
                       validator: (value) {
                         final number = double.tryParse(value ?? '');
-                        return number == null || number < 0 || number > 10
+                        return number == null || !number.isFinite || number < 0 || number > 10
                             ? tx(context, 'Укажи рейтинг от 0 до 10')
                             : null;
                       },

@@ -769,4 +769,234 @@ class AppLocalizationsKo extends AppLocalizations {
   String watchNext(String title, int episode) {
     return '$title · $episode화';
   }
+
+  @override
+  String get continueGuest => '게스트로 둘러보기';
+
+  @override
+  String get guestName => '드라마 팬';
+
+  @override
+  String get guestLibrary => '게스트 보관함 · 이 기기에 저장됨';
+
+  @override
+  String get signInToSync => '로그인하여 보관함 동기화';
+
+  @override
+  String get confirmEmail => '이메일에서 계정을 인증한 후 로그인하세요.';
+
+  @override
+  String get authInvalid => '이메일과 비밀번호를 확인하세요.';
+
+  @override
+  String get authUnconfirmed => '로그인 전에 이메일을 인증하세요.';
+
+  @override
+  String get authRateLimit => '시도 횟수가 너무 많습니다. 잠시 후 다시 시도하세요.';
+
+  @override
+  String get authWeakPassword => '더 강력한 비밀번호를 사용하세요.';
+
+  @override
+  String get authFailed => '로그인하지 못했습니다. 연결을 확인하고 다시 시도하세요.';
+
+  @override
+  String get resetPassword => '비밀번호 재설정';
+
+  @override
+  String get resetEmailSent => '등록된 계정이 있으면 복구 링크가 전송됩니다.';
+
+  @override
+  String get newPassword => '새 비밀번호';
+
+  @override
+  String get passwordUpdated => '비밀번호가 변경되었습니다';
+
+  @override
+  String get accountRequired => '리뷰를 작성하려면 로그인하세요.';
+
+  @override
+  String get logoutInfo => '클라우드 보관함은 계정에 유지됩니다. 대기 중인 변경 사항은 다시 로그인하면 전송됩니다.';
+
+  @override
+  String get syncLive => '보관함 실시간 동기화 연결됨';
+
+  @override
+  String get syncConnecting => '실시간 업데이트에 다시 연결 중…';
+
+  @override
+  String get syncPending => '변경 사항이 기기에 저장됨 · 동기화 대기 중';
+
+  @override
+  String get syncBusy => '보관함 동기화 중…';
+
+  @override
+  String get cloudSetupNeeded =>
+      '클라우드 기능이 아직 준비되지 않았습니다. 저장된 변경 사항은 나중에 다시 전송됩니다.';
+
+  @override
+  String get dnaTitle => 'DORAMA DNA';
+
+  @override
+  String get dnaSubtitle => '취향에 맞는 이야기';
+
+  @override
+  String get dnaOpen => '취향에 맞는 드라마 찾기';
+
+  @override
+  String get dnaColdStart => '장르를 고르거나 드라마를 저장하고 평가해 나만의 DNA를 만들어 보세요.';
+
+  @override
+  String get dnaPreferences => '좋아하는 장르';
+
+  @override
+  String get dnaMood => '어떤 기분을 느끼고 싶나요?';
+
+  @override
+  String get dnaAnyMood => '모든 기분';
+
+  @override
+  String get dnaRomantic => '설레는';
+
+  @override
+  String get dnaEmotional => '감동적인';
+
+  @override
+  String get dnaFunny => '유쾌한';
+
+  @override
+  String get dnaThriller => '긴장감 있는';
+
+  @override
+  String get dnaComfort => '편안한';
+
+  @override
+  String get dnaExplore => '둘러보기';
+
+  @override
+  String dnaMatch(int score) {
+    return '취향 일치 $score%';
+  }
+
+  @override
+  String get dnaWhy => '추천 이유';
+
+  @override
+  String dnaGenreReason(String genres) {
+    return '좋아하는 장르: $genres';
+  }
+
+  @override
+  String get dnaLengthReason => '좋아했던 작품과 비슷한 회차 수';
+
+  @override
+  String get dnaMoodReason => '장르를 기준으로 선택한 기분에 맞는 작품';
+
+  @override
+  String get dnaDiscoveryReason => '카탈로그의 새로운 취향을 탐색할 기회';
+
+  @override
+  String get dnaMethod =>
+      '일치율은 예측이 아닌 유사도 지수입니다. 사용 가능한 정보로 장르 친화도(70%), 국가 선호도(15%), 회차 수(15%)를 반영합니다. 저장, 시청 진행, 평가, 중단한 작품이 영향을 줍니다. 기분은 장르로 분류하며 완주하거나 중단한 작품은 제외합니다.';
+
+  @override
+  String get dnaEmpty => '이 기분에 맞는 작품이 없습니다. 다른 기분이나 카탈로그를 살펴보세요.';
+
+  @override
+  String dnaSignals(int count) {
+    return '취향 정보 $count개 기반';
+  }
+
+  @override
+  String get watchPlanned => '볼 예정';
+
+  @override
+  String get watchWatching => '시청 중';
+
+  @override
+  String get watchCompleted => '시청 완료';
+
+  @override
+  String get watchDropped => '시청 중단';
+
+  @override
+  String get watchStatus => '나의 시청 상태';
+
+  @override
+  String get dramaMissing => '카탈로그에서 이 드라마를 찾을 수 없습니다.';
+
+  @override
+  String get communityLive => '커뮤니티 리뷰 실시간 업데이트';
+
+  @override
+  String get communityRating => '커뮤니티 평점 · 5점 만점';
+
+  @override
+  String get noRatings => '아직 평가가 없습니다';
+
+  @override
+  String get deleteReviewFailed => '리뷰를 삭제하지 못했습니다. 다시 시도하세요.';
+
+  @override
+  String get catalogSavedCloud => '변경 사항은 공유 카탈로그에 저장됩니다.';
+
+  @override
+  String get genreRomance => '로맨스';
+
+  @override
+  String get genreComedy => '코미디';
+
+  @override
+  String get genreFantasy => '판타지';
+
+  @override
+  String get genreMusic => '음악';
+
+  @override
+  String get genreDrama => '드라마';
+
+  @override
+  String get genreMystery => '미스터리';
+
+  @override
+  String get genreFamily => '가족';
+
+  @override
+  String get genreAction => '액션';
+
+  @override
+  String get genreThriller => '스릴러';
+
+  @override
+  String get apiConfiguration => '클라우드에 연결할 수 없습니다. 게스트로 둘러볼 수 있습니다.';
+
+  @override
+  String get apiOffline => '오프라인입니다. 저장된 데이터를 표시하며 연결되면 변경 사항을 동기화합니다.';
+
+  @override
+  String get apiTimeout => '요청 시간이 초과되었습니다. 다시 시도하세요.';
+
+  @override
+  String get apiUnauthorized => '동기화를 계속하려면 다시 로그인하세요.';
+
+  @override
+  String get apiForbidden => '이 작업을 수행할 권한이 없습니다.';
+
+  @override
+  String get apiNotFound => '이 항목 또는 클라우드 기능을 사용할 수 없습니다. 나중에 다시 시도하세요.';
+
+  @override
+  String get apiConflict => '데이터가 변경되었습니다. 새로고침 후 다시 시도하세요.';
+
+  @override
+  String get apiServer => '서버를 사용할 수 없습니다. 저장된 데이터는 유지됩니다.';
+
+  @override
+  String get apiInvalidRequest => '입력한 내용을 확인하고 다시 시도하세요.';
+
+  @override
+  String get apiInvalidResponse => '서버 응답을 읽을 수 없습니다. 나중에 다시 시도하세요.';
+
+  @override
+  String get apiUnknown => '문제가 발생했습니다. 다시 시도하세요.';
 }

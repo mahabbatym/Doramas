@@ -1579,6 +1579,450 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} · episode {episode}'**
   String watchNext(String title, int episode);
+
+  /// No description provided for @continueGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore as a guest'**
+  String get continueGuest;
+
+  /// No description provided for @guestName.
+  ///
+  /// In en, this message translates to:
+  /// **'Drama lover'**
+  String get guestName;
+
+  /// No description provided for @guestLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest library · saved on this device'**
+  String get guestLibrary;
+
+  /// No description provided for @signInToSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync your library'**
+  String get signInToSync;
+
+  /// No description provided for @confirmEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email to confirm your account, then sign in.'**
+  String get confirmEmail;
+
+  /// No description provided for @authInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email and password.'**
+  String get authInvalid;
+
+  /// No description provided for @authUnconfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email before signing in.'**
+  String get authUnconfirmed;
+
+  /// No description provided for @authRateLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again later.'**
+  String get authRateLimit;
+
+  /// No description provided for @authWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a stronger password.'**
+  String get authWeakPassword;
+
+  /// No description provided for @authFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not sign in. Check your connection and try again.'**
+  String get authFailed;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPassword;
+
+  /// No description provided for @resetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'If this address has an account, a recovery link is on its way.'**
+  String get resetEmailSent;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated'**
+  String get passwordUpdated;
+
+  /// No description provided for @accountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to publish a review.'**
+  String get accountRequired;
+
+  /// No description provided for @logoutInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cloud library stays with your account. Pending changes will retry when you sign back in.'**
+  String get logoutInfo;
+
+  /// No description provided for @syncLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Library sync is live'**
+  String get syncLive;
+
+  /// No description provided for @syncConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting to live updates…'**
+  String get syncConnecting;
+
+  /// No description provided for @syncPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved here · waiting to sync'**
+  String get syncPending;
+
+  /// No description provided for @syncBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your library…'**
+  String get syncBusy;
+
+  /// No description provided for @cloudSetupNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud features are not ready yet. Your saved changes will retry later.'**
+  String get cloudSetupNeeded;
+
+  /// No description provided for @dnaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DORAMA DNA'**
+  String get dnaTitle;
+
+  /// No description provided for @dnaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stories that fit your taste'**
+  String get dnaSubtitle;
+
+  /// No description provided for @dnaOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover your match'**
+  String get dnaOpen;
+
+  /// No description provided for @dnaColdStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose genres or save and rate dramas to build your DNA.'**
+  String get dnaColdStart;
+
+  /// No description provided for @dnaPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Your favorite genres'**
+  String get dnaPreferences;
+
+  /// No description provided for @dnaMood.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you want to feel?'**
+  String get dnaMood;
+
+  /// No description provided for @dnaAnyMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Any mood'**
+  String get dnaAnyMood;
+
+  /// No description provided for @dnaRomantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Romantic'**
+  String get dnaRomantic;
+
+  /// No description provided for @dnaEmotional.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotional'**
+  String get dnaEmotional;
+
+  /// No description provided for @dnaFunny.
+  ///
+  /// In en, this message translates to:
+  /// **'Funny'**
+  String get dnaFunny;
+
+  /// No description provided for @dnaThriller.
+  ///
+  /// In en, this message translates to:
+  /// **'Thriller'**
+  String get dnaThriller;
+
+  /// No description provided for @dnaComfort.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfort'**
+  String get dnaComfort;
+
+  /// No description provided for @dnaExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get dnaExplore;
+
+  /// No description provided for @dnaMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'{score}% match'**
+  String dnaMatch(int score);
+
+  /// No description provided for @dnaWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this story?'**
+  String get dnaWhy;
+
+  /// No description provided for @dnaGenreReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Genres you enjoy: {genres}'**
+  String dnaGenreReason(String genres);
+
+  /// No description provided for @dnaLengthReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar episode count to stories you enjoyed'**
+  String get dnaLengthReason;
+
+  /// No description provided for @dnaMoodReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Fits the selected mood by genre'**
+  String get dnaMoodReason;
+
+  /// No description provided for @dnaDiscoveryReason.
+  ///
+  /// In en, this message translates to:
+  /// **'A chance to explore a different part of the catalog'**
+  String get dnaDiscoveryReason;
+
+  /// No description provided for @dnaMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Match is a similarity index, not a prediction. It combines genre affinity (70%), country preference (15%) and episode length (15%), using only available signals. Favorites, progress, ratings and dropped dramas shape it. Mood filters use genres; completed and dropped dramas are excluded.'**
+  String get dnaMethod;
+
+  /// No description provided for @dnaEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches for this mood yet. Try another mood or explore the catalog.'**
+  String get dnaEmpty;
+
+  /// No description provided for @dnaSignals.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {count} preference signals'**
+  String dnaSignals(int count);
+
+  /// No description provided for @watchPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan to watch'**
+  String get watchPlanned;
+
+  /// No description provided for @watchWatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Watching'**
+  String get watchWatching;
+
+  /// No description provided for @watchCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get watchCompleted;
+
+  /// No description provided for @watchDropped.
+  ///
+  /// In en, this message translates to:
+  /// **'Dropped'**
+  String get watchDropped;
+
+  /// No description provided for @watchStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'My watching status'**
+  String get watchStatus;
+
+  /// No description provided for @dramaMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'This drama is no longer in the catalog.'**
+  String get dramaMissing;
+
+  /// No description provided for @communityLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live community reviews'**
+  String get communityLive;
+
+  /// No description provided for @communityRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Community rating · out of 5'**
+  String get communityRating;
+
+  /// No description provided for @noRatings.
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings yet'**
+  String get noRatings;
+
+  /// No description provided for @deleteReviewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the review. Please retry.'**
+  String get deleteReviewFailed;
+
+  /// No description provided for @catalogSavedCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes are saved to the shared catalog.'**
+  String get catalogSavedCloud;
+
+  /// No description provided for @genreRomance.
+  ///
+  /// In en, this message translates to:
+  /// **'Romance'**
+  String get genreRomance;
+
+  /// No description provided for @genreComedy.
+  ///
+  /// In en, this message translates to:
+  /// **'Comedy'**
+  String get genreComedy;
+
+  /// No description provided for @genreFantasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Fantasy'**
+  String get genreFantasy;
+
+  /// No description provided for @genreMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get genreMusic;
+
+  /// No description provided for @genreDrama.
+  ///
+  /// In en, this message translates to:
+  /// **'Drama'**
+  String get genreDrama;
+
+  /// No description provided for @genreMystery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystery'**
+  String get genreMystery;
+
+  /// No description provided for @genreFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get genreFamily;
+
+  /// No description provided for @genreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Action'**
+  String get genreAction;
+
+  /// No description provided for @genreThriller.
+  ///
+  /// In en, this message translates to:
+  /// **'Thriller'**
+  String get genreThriller;
+
+  /// No description provided for @apiConfiguration.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud access is unavailable. You can still explore as a guest.'**
+  String get apiConfiguration;
+
+  /// No description provided for @apiOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline. Showing saved data; changes will sync after reconnection.'**
+  String get apiOffline;
+
+  /// No description provided for @apiTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'The request timed out. Please retry.'**
+  String get apiTimeout;
+
+  /// No description provided for @apiUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in again to continue syncing.'**
+  String get apiUnauthorized;
+
+  /// No description provided for @apiForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account does not have permission for this action.'**
+  String get apiForbidden;
+
+  /// No description provided for @apiNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This item or cloud feature is unavailable. Please retry later.'**
+  String get apiNotFound;
+
+  /// No description provided for @apiConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'The data changed. Refresh and try again.'**
+  String get apiConflict;
+
+  /// No description provided for @apiServer.
+  ///
+  /// In en, this message translates to:
+  /// **'The server is unavailable. Your saved data is still here.'**
+  String get apiServer;
+
+  /// No description provided for @apiInvalidRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the entered values and try again.'**
+  String get apiInvalidRequest;
+
+  /// No description provided for @apiInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the server response. Please retry later.'**
+  String get apiInvalidResponse;
+
+  /// No description provided for @apiUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get apiUnknown;
 }
 
 class _AppLocalizationsDelegate

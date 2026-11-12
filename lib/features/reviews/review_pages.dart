@@ -4,18 +4,35 @@ import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/core/widgets/nest_widgets.dart';
 import 'package:dorama_nest/core/validators.dart';
 import 'package:dorama_nest/data/models/review.dart';
-import 'package:dorama_nest/data/services/catalog_data.dart';
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
+import 'package:dorama_nest/data/api/api_exception.dart';
 import 'package:dorama_nest/state/app_controller.dart';
 
-class ReviewsPage extends StatelessWidget {
+class ReviewsPage extends StatefulWidget {
   final String dramaId;
   const ReviewsPage({super.key, required this.dramaId});
 
   @override
+  State<ReviewsPage> createState() => _ReviewsPageState();
+}
+class _ReviewsPageState extends State<ReviewsPage> {
+  AppController? _app;
+  String get dramaId => widget.dramaId;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_app != null) return;
+    _app = AppScope.of(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) { if (mounted) _app!.retainReviews(dramaId); });
+  }
+  @override
+  void dispose() { _app?.releaseReviews(dramaId); super.dispose(); }
+  @override
   Widget build(BuildContext context) {
     final app = AppScope.of(context);
-    final drama = app.dramas.where((d) => d.id == dramaId).firstOrNull ??
-        CatalogData.byId(dramaId);
+    final drama = app.dramaById(dramaId);
+    final l = AppLocalizations.of(context)!;
+    if (drama == null) return Scaffold(appBar: NestBackBar(title: tx(context, 'Отзывы о дораме')), body: Center(child: Text(l.dramaMissing)));
     final reviews = app.reviewsFor(dramaId);
     return Scaffold(
         appBar: NestBackBar(title: tx(context, 'Отзывы о дораме')),
@@ -35,22 +52,28 @@ class ReviewsPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                      Text('★ ${drama.score.toStringAsFixed(1)}',
+                      Text(reviews.isEmpty ? '—' : '★ ${(reviews.fold(0, (sum, r) => sum + r.stars) / reviews.length).toStringAsFixed(1)}',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
                               ?.copyWith(color: NestColors.blue)),
                       const SizedBox(height: 2),
-                      Text(tx(context, 'Зрительская оценка'),
+                      Text(l.communityRating,
                           style: Theme.of(context).textTheme.bodySmall)
                     ])),
                 SizedBox(
                     width: 130,
                     child: NestButton(
                         label: tx(context, '+ Мой отзыв'),
-                        onPressed: () => Navigator.pushNamed(
-                            context, '/reviewForm',
-                            arguments: {'dramaId': dramaId}))),
+                        onPressed: () {
+                          if (app.cloudConfigured && !app.loggedIn) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.accountRequired)));
+                            Navigator.pushNamed(context, '/login');
+                            return;
+                          }
+                          Navigator.pushNamed(context, '/reviewForm', arguments: {'dramaId': dramaId,
+                            if (app.ownReviews.where((r) => r.dramaId == dramaId).firstOrNull case final review?) 'reviewId': review.id});
+                        })),
               ])),
           const SizedBox(height: 24),
           Text(reviewCount(context, reviews.length),
@@ -60,7 +83,17 @@ class ReviewsPage extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.2)),
           const SizedBox(height: 13),
-          if (reviews.isEmpty)
+          if (app.reviewsLoading.contains(dramaId)) const LinearProgressIndicator(),
+          if (app.reviewFailures[dramaId] case final failure?)
+            Padding(padding: const EdgeInsets.only(bottom: 12), child: Column(children: [
+              Text(apiStatusText(context, failure, showingSavedData: reviews.isNotEmpty)),
+              TextButton(onPressed: () => app.refreshReviews(dramaId), child: Text(tx(context, 'Қайталау'))),
+            ]))
+          else if (app.cloudConfigured)
+            Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(
+              app.reviewConnections[dramaId] == true ? l.communityLive : l.syncConnecting,
+              style: Theme.of(context).textTheme.bodySmall)),
+          if (reviews.isEmpty && !app.reviewsLoading.contains(dramaId) && !app.reviewFailures.containsKey(dramaId))
             NestEmptyState(
                 icon: Icons.forum_outlined,
                 title: tx(context, 'Пока нет отзывов'),
@@ -68,7 +101,7 @@ class ReviewsPage extends StatelessWidget {
                     'Стань первым зрителем, который поделится эмоциями.')),
           ...reviews.map((r) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: _ReviewCard(review: r))),
+              child: _ReviewCard(key: ValueKey(r.id), review: r))),
           const SizedBox(height: 20),
         ]));
   }
@@ -76,7 +109,7 @@ class ReviewsPage extends StatelessWidget {
 
 class _ReviewCard extends StatefulWidget {
   final DramaReview review;
-  const _ReviewCard({required this.review});
+  const _ReviewCard({super.key, required this.review});
   @override
   State<_ReviewCard> createState() => _ReviewCardState();
 }
@@ -207,10 +240,12 @@ class _ReviewCardState extends State<_ReviewCard> {
                       child: Text(tx(context, 'Удалить')))
                 ]));
     if (yes == true && context.mounted) {
-      await AppScope.of(context).deleteReview(review.id);
-      if (context.mounted)
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(tx(context, 'Отзыв удалён'))));
+      try {
+        await AppScope.of(context).deleteReview(review.id);
+        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tx(context, 'Отзыв удалён'))));
+      } catch (_) {
+        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.deleteReviewFailed)));
+      }
     }
   }
 }
@@ -275,7 +310,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(tx(context, 'Не удалось сохранить отзыв'))));
+            SnackBar(content: Text(error is ApiException ? apiStatusText(context, error.kind, showingSavedData: false) : tx(context, 'Не удалось сохранить отзыв'))));
       }
     } finally {
       if (mounted) setState(() => busy = false);
@@ -285,8 +320,8 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
   @override
   Widget build(BuildContext context) {
     final app = AppScope.of(context);
-    final drama = app.dramas.where((d) => d.id == widget.dramaId).firstOrNull ??
-        CatalogData.byId(widget.dramaId);
+    final drama = app.dramaById(widget.dramaId);
+    if (drama == null) return Scaffold(appBar: NestBackBar(title: tx(context, 'Новый отзыв')), body: Center(child: Text(AppLocalizations.of(context)!.dramaMissing)));
     final editing = widget.reviewId != null;
     return Scaffold(
         appBar: NestBackBar(

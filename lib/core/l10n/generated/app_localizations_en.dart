@@ -785,4 +785,247 @@ class AppLocalizationsEn extends AppLocalizations {
   String watchNext(String title, int episode) {
     return '$title · episode $episode';
   }
+
+  @override
+  String get continueGuest => 'Explore as a guest';
+
+  @override
+  String get guestName => 'Drama lover';
+
+  @override
+  String get guestLibrary => 'Guest library · saved on this device';
+
+  @override
+  String get signInToSync => 'Sign in to sync your library';
+
+  @override
+  String get confirmEmail =>
+      'Check your email to confirm your account, then sign in.';
+
+  @override
+  String get authInvalid => 'Check your email and password.';
+
+  @override
+  String get authUnconfirmed => 'Confirm your email before signing in.';
+
+  @override
+  String get authRateLimit => 'Too many attempts. Please try again later.';
+
+  @override
+  String get authWeakPassword => 'Choose a stronger password.';
+
+  @override
+  String get authFailed =>
+      'Could not sign in. Check your connection and try again.';
+
+  @override
+  String get resetPassword => 'Reset password';
+
+  @override
+  String get resetEmailSent =>
+      'If this address has an account, a recovery link is on its way.';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get passwordUpdated => 'Password updated';
+
+  @override
+  String get accountRequired => 'Sign in to publish a review.';
+
+  @override
+  String get logoutInfo =>
+      'Your cloud library stays with your account. Pending changes will retry when you sign back in.';
+
+  @override
+  String get syncLive => 'Library sync is live';
+
+  @override
+  String get syncConnecting => 'Reconnecting to live updates…';
+
+  @override
+  String get syncPending => 'Changes saved here · waiting to sync';
+
+  @override
+  String get syncBusy => 'Syncing your library…';
+
+  @override
+  String get cloudSetupNeeded =>
+      'Cloud features are not ready yet. Your saved changes will retry later.';
+
+  @override
+  String get dnaTitle => 'DORAMA DNA';
+
+  @override
+  String get dnaSubtitle => 'Stories that fit your taste';
+
+  @override
+  String get dnaOpen => 'Discover your match';
+
+  @override
+  String get dnaColdStart =>
+      'Choose genres or save and rate dramas to build your DNA.';
+
+  @override
+  String get dnaPreferences => 'Your favorite genres';
+
+  @override
+  String get dnaMood => 'How do you want to feel?';
+
+  @override
+  String get dnaAnyMood => 'Any mood';
+
+  @override
+  String get dnaRomantic => 'Romantic';
+
+  @override
+  String get dnaEmotional => 'Emotional';
+
+  @override
+  String get dnaFunny => 'Funny';
+
+  @override
+  String get dnaThriller => 'Thriller';
+
+  @override
+  String get dnaComfort => 'Comfort';
+
+  @override
+  String get dnaExplore => 'Explore';
+
+  @override
+  String dnaMatch(int score) {
+    return '$score% match';
+  }
+
+  @override
+  String get dnaWhy => 'Why this story?';
+
+  @override
+  String dnaGenreReason(String genres) {
+    return 'Genres you enjoy: $genres';
+  }
+
+  @override
+  String get dnaLengthReason => 'Similar episode count to stories you enjoyed';
+
+  @override
+  String get dnaMoodReason => 'Fits the selected mood by genre';
+
+  @override
+  String get dnaDiscoveryReason =>
+      'A chance to explore a different part of the catalog';
+
+  @override
+  String get dnaMethod =>
+      'Match is a similarity index, not a prediction. It combines genre affinity (70%), country preference (15%) and episode length (15%), using only available signals. Favorites, progress, ratings and dropped dramas shape it. Mood filters use genres; completed and dropped dramas are excluded.';
+
+  @override
+  String get dnaEmpty =>
+      'No matches for this mood yet. Try another mood or explore the catalog.';
+
+  @override
+  String dnaSignals(int count) {
+    return 'Based on $count preference signals';
+  }
+
+  @override
+  String get watchPlanned => 'Plan to watch';
+
+  @override
+  String get watchWatching => 'Watching';
+
+  @override
+  String get watchCompleted => 'Completed';
+
+  @override
+  String get watchDropped => 'Dropped';
+
+  @override
+  String get watchStatus => 'My watching status';
+
+  @override
+  String get dramaMissing => 'This drama is no longer in the catalog.';
+
+  @override
+  String get communityLive => 'Live community reviews';
+
+  @override
+  String get communityRating => 'Community rating · out of 5';
+
+  @override
+  String get noRatings => 'No ratings yet';
+
+  @override
+  String get deleteReviewFailed => 'Could not delete the review. Please retry.';
+
+  @override
+  String get catalogSavedCloud => 'Changes are saved to the shared catalog.';
+
+  @override
+  String get genreRomance => 'Romance';
+
+  @override
+  String get genreComedy => 'Comedy';
+
+  @override
+  String get genreFantasy => 'Fantasy';
+
+  @override
+  String get genreMusic => 'Music';
+
+  @override
+  String get genreDrama => 'Drama';
+
+  @override
+  String get genreMystery => 'Mystery';
+
+  @override
+  String get genreFamily => 'Family';
+
+  @override
+  String get genreAction => 'Action';
+
+  @override
+  String get genreThriller => 'Thriller';
+
+  @override
+  String get apiConfiguration =>
+      'Cloud access is unavailable. You can still explore as a guest.';
+
+  @override
+  String get apiOffline =>
+      'Offline. Showing saved data; changes will sync after reconnection.';
+
+  @override
+  String get apiTimeout => 'The request timed out. Please retry.';
+
+  @override
+  String get apiUnauthorized => 'Please sign in again to continue syncing.';
+
+  @override
+  String get apiForbidden =>
+      'Your account does not have permission for this action.';
+
+  @override
+  String get apiNotFound =>
+      'This item or cloud feature is unavailable. Please retry later.';
+
+  @override
+  String get apiConflict => 'The data changed. Refresh and try again.';
+
+  @override
+  String get apiServer =>
+      'The server is unavailable. Your saved data is still here.';
+
+  @override
+  String get apiInvalidRequest => 'Check the entered values and try again.';
+
+  @override
+  String get apiInvalidResponse =>
+      'Could not read the server response. Please retry later.';
+
+  @override
+  String get apiUnknown => 'Something went wrong. Please try again.';
 }

@@ -4,7 +4,8 @@ import 'package:dorama_nest/core/locale_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/core/widgets/nest_widgets.dart';
-import 'package:dorama_nest/data/services/catalog_data.dart';
+import 'package:dorama_nest/data/models/watch_progress.dart';
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:dorama_nest/state/app_controller.dart';
 import 'package:dorama_nest/data/api/api_exception.dart';
 
@@ -15,8 +16,9 @@ class DramaDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final app = AppScope.of(context);
-    final drama = app.dramas.where((d) => d.id == dramaId).firstOrNull ??
-        CatalogData.byId(dramaId);
+    final drama = app.dramaById(dramaId);
+    if (drama == null) return Scaffold(appBar: NestBackBar(title: tx(context, 'О дораме')),
+      body: Center(child: Padding(padding: pagePadding, child: Text(AppLocalizations.of(context)!.dramaMissing))));
     final favorite = app.isFavorite(drama.id);
     return Scaffold(
       appBar: NestBackBar(
@@ -56,7 +58,7 @@ class DramaDetailPage extends StatelessWidget {
         Text(drama.originalTitle, style: Theme.of(context).textTheme.bodySmall),
         const SizedBox(height: 8),
         Text(
-            '★ ${drama.score.toStringAsFixed(1)}  ·  ${tx(context, drama.country)}  ·  ${drama.year}  ·  ${tx(context, drama.genre)}',
+            '★ ${drama.score.toStringAsFixed(1)}  ·  ${tx(context, drama.country)}  ·  ${drama.year}  ·  ${genreLabel(context, drama.genreKeys.first)}',
             style: const TextStyle(
                 color: NestColors.blue,
                 fontSize: 12,
@@ -71,7 +73,16 @@ class DramaDetailPage extends StatelessWidget {
         Text(
             '${drama.episodes} ${tx(context, 'Серий')} · ${drama.country == 'Корея' ? 'K-drama' : 'C-drama'}',
             style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 29),
+        const SizedBox(height: 20),
+        Text(AppLocalizations.of(context)!.watchStatus, style: Theme.of(context).textTheme.titleMedium),
+        Wrap(spacing: 7, children: WatchStatus.values.map((status) => ChoiceChip(
+          label: Text(watchStatusLabel(context, status)), selected: app.watchProgress[drama.id]?.status == status,
+          onSelected: (_) async {
+            try { await app.setEpisodesWatched(drama.id,
+              status == WatchStatus.planned ? 0 : app.watchProgress[drama.id]?.episodesWatched ?? 0, status: status); }
+            catch (_) { if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tx(context, 'Не удалось сохранить')))); }
+          })).toList()),
+        const SizedBox(height: 20),
         if (app.watchProgress.containsKey(drama.id)) ...[
           Container(
             padding: const EdgeInsets.all(15),

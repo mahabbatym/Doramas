@@ -1,3 +1,4 @@
+import 'package:dorama_nest/core/widgets/library_sync_status.dart';
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/features/home/home_page.dart';
@@ -61,6 +62,7 @@ class _MainShellState extends State<MainShell> {
       body: SafeArea(
           bottom: false,
           child: Column(children: [
+            if (app.cloudConfigured) const LibrarySyncStatus(),
             if (app.apiFailure != null)
               MaterialBanner(
                 content: Text(apiStatusText(context, app.apiFailure,
@@ -70,7 +72,7 @@ class _MainShellState extends State<MainShell> {
                     : Icons.wifi_off_rounded),
                 actions: [
                   TextButton(
-                    onPressed: app.catalogLoading ? null : app.refreshCatalog,
+                    onPressed: app.catalogLoading ? null : app.retryCloud,
                     child: Text(tx(context, 'Қайталау')),
                   ),
                 ],

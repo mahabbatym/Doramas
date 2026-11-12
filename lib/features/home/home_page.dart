@@ -1,3 +1,5 @@
+import 'package:dorama_nest/features/discovery/dna_page.dart';
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/core/widgets/nest_widgets.dart';
@@ -32,7 +34,7 @@ class HomePage extends StatelessWidget {
                                     letterSpacing: .1,
                                     fontSize: 10)),
                             const SizedBox(height: 7),
-                            Text(greeting(context, app.nickname),
+                            Text(greeting(context, app.nickname.isEmpty ? AppLocalizations.of(context)!.guestName : app.nickname),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style:
@@ -129,6 +131,8 @@ class HomePage extends StatelessWidget {
                                   ])),
                             ));
                       }),
+                    const SizedBox(height: 22),
+                    const DnaPreview(),
                     const SizedBox(height: 26),
                     NestSectionHeading(
                         title: tx(context, 'Под настроение'),
@@ -157,9 +161,9 @@ class HomePage extends StatelessWidget {
                         more: tx(context, 'Все →'),
                         onTap: () => onTab(1, 'Все')),
                     const SizedBox(height: 12),
-                    if (app.watchProgress.isNotEmpty) ...[
+                    if (app.continueWatching.isNotEmpty) ...[
                       Builder(builder: (context) {
-                        final progress = app.watchProgress.values.first;
+                        final progress = app.continueWatching.first;
                         final drama = app.dramas
                             .where((d) => d.id == progress.dramaId)
                             .firstOrNull;

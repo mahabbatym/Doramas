@@ -1,3 +1,4 @@
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/locale_text.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
@@ -28,11 +29,28 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> submit() async {
     if (!form.currentState!.validate()) return;
     setState(() => busy = true);
-    final stored = AppScope.of(context).nickname;
-    await AppScope.of(context)
-        .signIn(stored.isEmpty ? email.text.trim().split('@').first : stored);
-    if (!mounted) return;
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+    try {
+      await AppScope.of(context).signIn(email.text, password.text);
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+    } catch (error) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authErrorText(context, error))));
+    } finally { if (mounted) setState(() => busy = false); }
+  }
+
+  Future<void> resetPassword() async {
+    final error = _localizedEmail(context, email.text);
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
+    setState(() => busy = true);
+    try {
+      await AppScope.of(context).sendPasswordReset(email.text);
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.resetEmailSent)));
+    } catch (error) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authErrorText(context, error))));
+    } finally { if (mounted) setState(() => busy = false); }
   }
 
   @override
@@ -92,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .textTheme
                                 .bodySmall
                                 ?.copyWith(fontSize: 10)),
+                        TextButton(onPressed: busy ? null : resetPassword, child: Text(AppLocalizations.of(context)!.resetPassword)),
                         const SizedBox(height: 24),
                         NestButton(
                             label: tx(context, busy ? 'Входим…' : 'Войти →'),
@@ -106,7 +125,10 @@ class _LoginPageState extends State<LoginPage> {
                             secondary: true,
                             onPressed: () =>
                                 Navigator.pushNamed(context, '/register')),
-                        const SizedBox(height: 20),
+                        TextButton(onPressed: busy ? null : () async {
+                          await AppScope.of(context).finishOnboarding();
+                          if (context.mounted) Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+                        }, child: Text(AppLocalizations.of(context)!.continueGuest)),
                         const SizedBox(height: 30),
                       ])))));
 }
@@ -143,9 +165,20 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
     setState(() => busy = true);
-    await AppScope.of(context).signIn(name.text);
-    if (!mounted) return;
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+    try {
+      final signedIn = await AppScope.of(context).signUp(name.text, email.text, password.text);
+      if (!mounted) return;
+      if (signedIn) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+      } else {
+        await showDialog<void>(context: context, builder: (dialogContext) => AlertDialog(
+          title: Text(tx(context, 'Email')), content: Text(AppLocalizations.of(context)!.confirmEmail),
+          actions: [TextButton(onPressed: () => Navigator.pop(dialogContext), child: Text(tx(context, 'Закрыть')))]));
+        if (mounted) Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+      }
+    } catch (error) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authErrorText(context, error))));
+    } finally { if (mounted) setState(() => busy = false); }
   }
 
   @override
@@ -239,4 +272,39 @@ String? _localizedRequired(BuildContext context, String? value,
     {required String field}) {
   final error = NestValidators.requiredText(value, name: field);
   return error == null ? null : tx(context, error);
+}
+
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({super.key});
+  @override
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+}
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final password = TextEditingController();
+  final form = GlobalKey<FormState>();
+  bool busy = false;
+  @override
+  void dispose() { password.dispose(); super.dispose(); }
+  Future<void> save() async {
+    if (!form.currentState!.validate()) return;
+    setState(() => busy = true);
+    try {
+      await AppScope.of(context).updatePassword(password.text);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.passwordUpdated)));
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+    } catch (error) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authErrorText(context, error))));
+    } finally { if (mounted) setState(() => busy = false); }
+  }
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: NestBackBar(title: AppLocalizations.of(context)!.resetPassword),
+    body: Form(key: form, child: ListView(padding: pagePadding, children: [
+      const SizedBox(height: 24),
+      NestField(label: AppLocalizations.of(context)!.newPassword, hint: tx(context, 'Не менее 6 символов'),
+        controller: password, obscure: true, validator: (v) => _localizedPassword(context, v)),
+      const SizedBox(height: 24),
+      NestButton(label: tx(context, 'Сохранить'), onPressed: busy ? null : save),
+    ])));
 }

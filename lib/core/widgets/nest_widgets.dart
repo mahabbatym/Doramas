@@ -181,120 +181,57 @@ class DramaPoster extends StatelessWidget {
   final double? width;
   final double? height;
   final bool compact;
-  const DramaPoster(
-      {super.key,
-      required this.drama,
-      this.width,
-      this.height,
-      this.compact = false});
-
+  const DramaPoster({super.key, required this.drama, this.width, this.height, this.compact = false});
   @override
   Widget build(BuildContext context) {
-    final locale = AppScope.of(context).language;
-    return ClipRRect(
+    final title = drama.localizedTitle(AppScope.of(context).language);
+    return Semantics(label: title, image: true, child: ClipRRect(
       borderRadius: BorderRadius.circular(compact ? 12 : 22),
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: LayoutBuilder(builder: (context, constraints) {
-          final w =
-              constraints.maxWidth.isFinite ? constraints.maxWidth : 150.0;
-          final h =
-              constraints.maxHeight.isFinite ? constraints.maxHeight : 205.0;
-          return Stack(clipBehavior: Clip.hardEdge, children: [
-            Positioned.fill(
-              child: drama.posterUrl == null || drama.posterUrl!.isEmpty
-                  ? _posterFallback(drama)
-                  : CachedNetworkImage(
-                      imageUrl: drama.posterUrl!,
-                      fit: BoxFit.cover,
-                      fadeInDuration: const Duration(milliseconds: 220),
-                      placeholder: (_, __) => _posterFallback(drama),
-                      errorWidget: (_, __, ___) => _posterFallback(drama),
-                    ),
-            ),
-            Positioned(
-                left: w * .35,
-                top: h * .06,
-                child: Container(
-                    width: w * 1.02,
-                    height: w * 1.02,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: .16)))),
-            Positioned(
-                left: -w * .48,
-                top: h * .2,
-                child: Container(
-                    width: w * 1.2,
-                    height: w * 1.2,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: .14)))),
-            Positioned(
-                right: -w * .54,
-                top: h * .24,
-                child: Container(
-                    width: w * 1.0,
-                    height: w * 1.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: .17)))),
-            Positioned.fill(
-                bottom: compact ? h * .12 : h * .19,
-                child: Center(
-                    child: Text(drama.symbol,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: compact ? w * .31 : w * .37,
-                            fontWeight: FontWeight.w700)))),
-            Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: h * .31,
-                child: const DecoratedBox(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Color(0xAA7B678F), Color(0xD9243A5B)])))),
-            Positioned(
-                left: compact ? 8 : 12,
-                right: 5,
-                bottom: compact ? 31 : 57,
-                child: Text(drama.isKorean ? 'K · DRAMA' : 'C · DRAMA',
-                    style: TextStyle(
-                        fontSize: compact ? 7 : 10,
-                        letterSpacing: .6,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800))),
-            Positioned(
-                left: compact ? 8 : 12,
-                right: 5,
-                bottom: compact ? 7 : 21,
-                child: Text(drama.localizedTitle(locale),
-                    maxLines: compact ? 2 : 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: compact ? 10 : (w > 240 ? 23 : 17),
-                        height: 1.1,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800))),
-          ]);
-        }),
-      ),
-    );
+      child: SizedBox(width: width, height: height, child: LayoutBuilder(builder: (context, constraints) {
+        final wide = constraints.maxWidth > constraints.maxHeight;
+        final url = wide ? drama.backdropUrl ?? drama.posterUrl : drama.posterUrl;
+        final uri = Uri.tryParse(url ?? '');
+        final fallback = _PosterFallback(drama: drama, title: title, compact: compact);
+        if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) return fallback;
+        return CachedNetworkImage(
+          imageUrl: url!, fit: (uri.host == 'i.ytimg.com' || uri.host == 'img.youtube.com') && !wide ? BoxFit.contain : BoxFit.cover,
+          memCacheWidth: ((constraints.maxWidth.isFinite ? constraints.maxWidth : 200) * MediaQuery.devicePixelRatioOf(context)).round().clamp(100, 1200),
+          maxWidthDiskCache: 1200,
+          fadeInDuration: const Duration(milliseconds: 180),
+          placeholder: (_, __) => fallback,
+          errorWidget: (_, __, ___) => fallback,
+          imageBuilder: (context, provider) => DecoratedBox(
+            decoration: BoxDecoration(gradient: LinearGradient(colors: [drama.start, drama.end])),
+            child: Image(image: provider, fit: (uri.host == 'i.ytimg.com' || uri.host == 'img.youtube.com') && !wide ? BoxFit.contain : BoxFit.cover,
+              width: double.infinity, height: double.infinity, excludeFromSemantics: true)),
+        );
+      })),
+    ));
   }
 }
 
-Widget _posterFallback(Drama drama) => DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [drama.start, drama.end],
-        ),
-      ),
-    );
+class _PosterFallback extends StatelessWidget {
+  const _PosterFallback({required this.drama, required this.title, required this.compact});
+  final Drama drama;
+  final String title;
+  final bool compact;
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft,
+      end: Alignment.bottomRight, colors: [drama.start, drama.end])),
+    child: Padding(padding: EdgeInsets.all(compact ? 8 : 18), child: Column(
+      mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text('D O R A M A  N E S T', maxLines: 1, overflow: TextOverflow.clip,
+          style: TextStyle(color: Colors.white70, fontSize: compact ? 5 : 9)),
+        SizedBox(height: compact ? 8 : 18),
+        Text(title, textAlign: TextAlign.center, maxLines: 3, overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: Colors.white, fontSize: compact ? 11 : 20,
+            height: 1.2, fontWeight: FontWeight.w800)),
+        SizedBox(height: compact ? 8 : 18),
+        Text('${drama.year}', style: TextStyle(color: Colors.white70, fontSize: compact ? 8 : 12)),
+      ])),
+  );
+}
 
 class DramaListTile extends StatelessWidget {
   final Drama drama;
@@ -332,7 +269,7 @@ class DramaListTile extends StatelessWidget {
                     Text('${tx(context, drama.country)} · ${drama.year}',
                         style: Theme.of(context).textTheme.bodySmall),
                     Text(
-                        '${tx(context, drama.genre)} · ${drama.episodes} ${tx(context, 'Серий')}',
+                        '${genreLabel(context, drama.genreKeys.first)} · ${drama.episodes} ${tx(context, 'Серий')}',
                         style: Theme.of(context).textTheme.bodySmall),
                     const SizedBox(height: 7),
                     Text('★ ${drama.score.toStringAsFixed(1)}',

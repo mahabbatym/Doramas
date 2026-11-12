@@ -48,7 +48,7 @@ class _CatalogPageState extends State<CatalogPage> {
       genre: filter != 'Все' && filter != 'Корея' && filter != 'Китай'
           ? filter
           : null,
-      year: yearFilter == 0 ? null : yearFilter,
+      year: yearFilter == 0 || !years.contains(yearFilter) ? null : yearFilter,
       status: statusFilter == 'all' ? null : statusFilter,
       locale: app.language,
       sort: switch (sort) {
@@ -118,7 +118,7 @@ class _CatalogPageState extends State<CatalogPage> {
                 isDense: true,
                 iconSize: 18,
                 style: const TextStyle(fontSize: 12),
-                value: yearFilter,
+                value: years.contains(yearFilter) ? yearFilter : 0,
                 items: [
                   DropdownMenuItem(
                       value: 0, child: _filterLabel(context, 'Все годы')),

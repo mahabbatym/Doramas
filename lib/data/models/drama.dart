@@ -20,6 +20,7 @@ class Drama {
   final Color start;
   final Color end;
   final bool isCustom;
+  final List<String> genreSlugs;
 
   const Drama({
     required this.id,
@@ -39,9 +40,12 @@ class Drama {
     required this.start,
     required this.end,
     this.isCustom = false,
+    this.genreSlugs = const [],
   });
 
   bool get isKorean => country == 'Корея';
+
+  Set<String> get genreKeys => genreSlugs.isEmpty ? {genreKey(genre)} : genreSlugs.toSet();
 
   String localizedTitle(String locale) =>
       translations[locale]?['title'] ?? translations['en']?['title'] ?? title;
@@ -69,6 +73,7 @@ class Drama {
         'startColor': start.toARGB32(),
         'endColor': end.toARGB32(),
         'isCustom': isCustom ? 1 : 0,
+        'genreSlugs': jsonEncode(genreSlugs),
       };
 
   factory Drama.fromMap(Map<String, Object?> map) {
@@ -104,6 +109,11 @@ class Drama {
       start: Color(map['startColor']! as int),
       end: Color(map['endColor']! as int),
       isCustom: map['isCustom'] == 1,
+      genreSlugs: switch (map['genreSlugs']) {
+        String value => (_decodeTranslations(value) as List?)?.whereType<String>().toList() ?? const [],
+        List value => value.whereType<String>().toList(),
+        _ => const [],
+      },
     );
   }
 
@@ -115,3 +125,16 @@ class Drama {
     }
   }
 }
+
+String genreKey(String value) => switch (value.toLowerCase()) {
+  'романтика' || 'romance' || '로맨스' => 'romance',
+  'комедия' || 'comedy' || '코미디' => 'comedy',
+  'фэнтези' || 'fantasy' || '판타지' => 'fantasy',
+  'музыка' || 'music' || '음악' => 'music',
+  'драма' || 'drama' || '드라마' => 'drama',
+  'отбасы' || 'семейная история' || 'family' || '가족' => 'family',
+  'шытырман оқиға' || 'приключения' || 'action' || '액션' => 'action',
+  'детектив' || 'mystery' || '미스터리' => 'mystery',
+  'триллер' || 'thriller' || '스릴러' => 'thriller',
+  _ => value.toLowerCase(),
+};

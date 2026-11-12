@@ -1,3 +1,4 @@
+import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:dorama_nest/core/theme/app_theme.dart';
 import 'package:dorama_nest/core/widgets/nest_widgets.dart';
@@ -84,15 +85,15 @@ class SettingsPage extends StatelessWidget {
                       tx(context, 'Каталог корейских и китайских дорам'))),
           const SizedBox(height: 28),
           NestButton(
-              label: tx(context, 'Выйти из аккаунта'),
+              label: tx(context, app.hasSession ? 'Выйти из аккаунта' : 'Вход'),
               secondary: true,
               onPressed: () async {
+                if (!app.hasSession) { Navigator.pushNamed(context, '/login'); return; }
                 final confirm = await showDialog<bool>(
                   context: context,
                   builder: (dialogContext) => AlertDialog(
                     title: Text(tx(context, 'Выйти из аккаунта?')),
-                    content: Text(tx(context,
-                        'Твои избранные дорамы и отзывы останутся на этом устройстве.')),
+                    content: Text(AppLocalizations.of(context)!.logoutInfo),
                     actions: [
                       TextButton(
                           onPressed: () => Navigator.pop(dialogContext, false),
@@ -104,10 +105,12 @@ class SettingsPage extends StatelessWidget {
                   ),
                 );
                 if (confirm != true || !context.mounted) return;
-                await app.signOut();
-                if (context.mounted)
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (_) => false);
+                try {
+                  await app.signOut();
+                  if (context.mounted) Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+                } catch (error) {
+                  if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authErrorText(context, error))));
+                }
               }),
           const SizedBox(height: 37),
         ]));

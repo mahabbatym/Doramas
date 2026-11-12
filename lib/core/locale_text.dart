@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:dorama_nest/data/models/dna_preferences.dart';
+import 'package:dorama_nest/data/models/watch_progress.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dorama_nest/core/l10n/generated/app_localizations.dart';
 import 'package:dorama_nest/data/api/api_exception.dart';
@@ -236,53 +240,63 @@ String tx(BuildContext context, String source) {
     "Қайталау" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Қайталау',
         'ru' => 'Повторить',
+        'ko' => '다시 시도',
         _ => 'Retry',
       },
     "Рейтинг" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Рейтинг',
         'ru' => 'Рейтинг',
+        'ko' => '평점',
         _ => 'Rating',
       },
     "Статус" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Мәртебесі',
         'ru' => 'Статус',
+        'ko' => '상태',
         _ => 'Status',
       },
     "Укажи рейтинг от 0 до 10" => switch (
           Localizations.localeOf(context).languageCode) {
         'kk' => 'Рейтинг 0 мен 10 аралығында болуы керек',
         'ru' => 'Укажи рейтинг от 0 до 10',
+        'ko' => '0에서 10 사이의 평점을 입력하세요',
         _ => 'Enter a rating from 0 to 10',
       },
     "Суреттің HTTPS сілтемесін енгізіңіз" => switch (
           Localizations.localeOf(context).languageCode) {
         'kk' => 'Суреттің дұрыс HTTPS сілтемесін енгізіңіз',
         'ru' => 'Укажите корректную HTTPS-ссылку на изображение',
+        'ko' => '올바른 HTTPS 이미지 주소를 입력하세요',
         _ => 'Enter a valid HTTPS image URL',
       },
     "URL постера" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Постер сілтемесі',
         'ru' => 'URL постера',
+        'ko' => '포스터 URL',
         _ => 'Poster URL',
       },
     "URL обложки" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Мұқаба сілтемесі',
         'ru' => 'URL обложки',
+        'ko' => '배경 이미지 URL',
         _ => 'Backdrop URL',
       },
     "Барлық елдер" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Барлық ел',
         'ru' => 'Все страны',
+        'ko' => '모든 국가',
         _ => 'All countries',
       },
     "Все годы" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Барлық жыл',
         'ru' => 'Все годы',
+        'ko' => '모든 연도',
         _ => 'All years',
       },
     "Все статусы" => switch (Localizations.localeOf(context).languageCode) {
         'kk' => 'Барлық мәртебе',
         'ru' => 'Все статусы',
+        'ko' => '모든 상태',
         _ => 'All statuses',
       },
     _ => source,
@@ -294,80 +308,20 @@ String apiStatusText(
   ApiFailureKind? failure, {
   required bool showingSavedData,
 }) {
-  final locale = Localizations.localeOf(context).languageCode;
-  final messages = <String, Map<String, String>>{
-    'configuration': {
-      'kk':
-          'Supabase бапталмаған. env.json файлын жасап, қосымшаны қайта іске қосыңыз.',
-      'ru':
-          'Supabase не настроен. Создайте env.json и перезапустите приложение.',
-      'en': 'Supabase is not configured. Add env.json and restart the app.',
-    },
-    'offline': {
-      'kk': showingSavedData
-          ? 'Интернет жоқ. Сақталған каталог көрсетіліп тұр.'
-          : 'Интернет байланысын тексеріп, қайта көріңіз.',
-      'ru': showingSavedData
-          ? 'Нет интернета. Показан сохранённый каталог.'
-          : 'Нет подключения к интернету. Проверьте сеть и повторите попытку.',
-      'en': showingSavedData
-          ? 'Offline. Showing the saved catalog.'
-          : 'No internet connection. Check your network and retry.',
-    },
-    'timeout': {
-      'kk': 'Серверге қосылу уақыты аяқталды. Қайталап көріңіз.',
-      'ru': 'Сервер отвечает слишком долго. Попробуйте ещё раз.',
-      'en': 'The server took too long to respond. Please retry.',
-    },
-    'unauthorized': {
-      'kk': 'Авторизация сессиясы аяқталды. Қосымшаны қайта ашыңыз.',
-      'ru': 'Сессия авторизации истекла. Перезапустите приложение.',
-      'en': 'Your session expired. Restart the app to sign in again.',
-    },
-    'forbidden': {
-      'kk': 'Бұл әрекетке әкімші рұқсаты қажет.',
-      'ru': 'Для этого действия нужны права администратора.',
-      'en': 'Administrator access is required for this action.',
-    },
-    'notFound': {
-      'kk': 'Серверде жазба табылмады. Каталогты жаңартыңыз.',
-      'ru': 'Запись не найдена на сервере. Обновите каталог.',
-      'en': 'The server record was not found. Refresh the catalog.',
-    },
-    'conflict': {
-      'kk': 'Дерек сервермен сәйкес келмейді. Каталогты жаңартыңыз.',
-      'ru': 'Данные конфликтуют с сервером. Обновите каталог.',
-      'en': 'The data conflicts with the server. Refresh the catalog.',
-    },
-    'server': {
-      'kk': showingSavedData
-          ? 'Сервер қатесі. Сақталған каталог көрсетіліп тұр.'
-          : 'Сервер қатесі. Қайталап көріңіз.',
-      'ru': showingSavedData
-          ? 'Ошибка сервера. Показан сохранённый каталог.'
-          : 'Ошибка сервера. Попробуйте ещё раз.',
-      'en': showingSavedData
-          ? 'Server error. Showing the saved catalog.'
-          : 'Server error. Please retry.',
-    },
-    'invalidRequest': {
-      'kk': 'Сұрау қабылданбады. Енгізілген деректерді тексеріңіз.',
-      'ru': 'Сервер отклонил запрос. Проверьте введённые данные.',
-      'en': 'The server rejected the request. Check the submitted data.',
-    },
-    'invalidResponse': {
-      'kk': 'Сервер жауабын оқу мүмкін болмады. Кейінірек қайталап көріңіз.',
-      'ru': 'Не удалось прочитать ответ сервера. Попробуйте позже.',
-      'en': 'The server response could not be read. Please retry later.',
-    },
-    'unknown': {
-      'kk': 'Сұрау орындалмады. Қайталап көріңіз.',
-      'ru': 'Не удалось выполнить запрос. Попробуйте ещё раз.',
-      'en': 'The request failed. Please try again.',
-    },
+  final l = AppLocalizations.of(context)!;
+  return switch (failure) {
+    ApiFailureKind.configuration => l.apiConfiguration,
+    ApiFailureKind.offline => l.apiOffline,
+    ApiFailureKind.timeout => l.apiTimeout,
+    ApiFailureKind.unauthorized => l.apiUnauthorized,
+    ApiFailureKind.forbidden => l.apiForbidden,
+    ApiFailureKind.notFound => l.apiNotFound,
+    ApiFailureKind.conflict => l.apiConflict,
+    ApiFailureKind.server => l.apiServer,
+    ApiFailureKind.invalidRequest => l.apiInvalidRequest,
+    ApiFailureKind.invalidResponse => l.apiInvalidResponse,
+    _ => l.apiUnknown,
   };
-  final byLocale = messages[failure?.name ?? 'unknown'] ?? messages['unknown']!;
-  return byLocale[locale] ?? byLocale['en']!;
 }
 
 String localizedDramaFieldLabel(
@@ -376,29 +330,13 @@ String localizedDramaFieldLabel(
   required bool description,
 }) {
   final uiLocale = Localizations.localeOf(context).languageCode;
-  final languageName = switch (locale) {
-    'kk' => switch (uiLocale) {
-        'kk' => 'Қазақша',
-        'ru' => 'казахском',
-        _ => 'Kazakh',
-      },
-    'ru' => switch (uiLocale) {
-        'kk' => 'Орысша',
-        'ru' => 'русском',
-        _ => 'Russian',
-      },
-    _ => switch (uiLocale) {
-        'kk' => 'Ағылшынша',
-        'ru' => 'английском',
-        _ => 'English',
-      },
+  const names = {
+    'kk': {'kk':'Қазақша', 'ru':'Казахский', 'en':'Kazakh', 'ko':'카자흐어'},
+    'ru': {'kk':'Орысша', 'ru':'Русский', 'en':'Russian', 'ko':'러시아어'},
+    'en': {'kk':'Ағылшынша', 'ru':'Английский', 'en':'English', 'ko':'영어'},
+    'ko': {'kk':'Корейше', 'ru':'Корейский', 'en':'Korean', 'ko':'한국어'},
   };
-  final field = switch (uiLocale) {
-    'kk' => description ? 'Сипаттама' : 'Атауы',
-    'ru' => description ? 'Описание' : 'Название',
-    _ => description ? 'Description' : 'Title',
-  };
-  return '$field ($languageName)';
+  return '${tx(context, description ? 'Описание' : 'Название')} (${names[locale]?[uiLocale] ?? locale})';
 }
 
 String dramaStatusLabel(BuildContext context, String status) {
@@ -407,12 +345,12 @@ String dramaStatusLabel(BuildContext context, String status) {
     'announced': {
       'kk': 'Жоспарланған',
       'ru': 'Анонсирована',
-      'en': 'Announced'
+      'en': 'Announced', 'ko': '방영 예정'
     },
-    'ongoing': {'kk': 'Көрсетіліп жатыр', 'ru': 'Выходит', 'en': 'Ongoing'},
-    'completed': {'kk': 'Аяқталған', 'ru': 'Завершена', 'en': 'Completed'},
-    'released': {'kk': 'Шыққан', 'ru': 'Вышла', 'en': 'Released'},
-    'hiatus': {'kk': 'Үзілісте', 'ru': 'На паузе', 'en': 'On hiatus'},
+    'ongoing': {'kk': 'Көрсетіліп жатыр', 'ru': 'Выходит', 'en': 'Ongoing', 'ko': '방영 중'},
+    'completed': {'kk': 'Аяқталған', 'ru': 'Завершена', 'en': 'Completed', 'ko': '완결'},
+    'released': {'kk': 'Шыққан', 'ru': 'Вышла', 'en': 'Released', 'ko': '공개됨'},
+    'hiatus': {'kk': 'Үзілісте', 'ru': 'На паузе', 'en': 'On hiatus', 'ko': '휴방 중'},
   };
   final values = labels[status] ?? labels['released']!;
   return values[locale] ?? values['en']!;
@@ -440,3 +378,45 @@ String watchNext(BuildContext context, String title, int episode) =>
     AppLocalizations.of(context)!.watchNext(title, episode);
 String greeting(BuildContext context, String name) =>
     AppLocalizations.of(context)!.greeting(name);
+
+String authErrorText(BuildContext context, Object error) {
+  final l = AppLocalizations.of(context)!;
+  if (error is ApiException) return apiStatusText(context, error.kind, showingSavedData: false);
+  if (error is TimeoutException) return l.apiTimeout;
+  if (error is AuthException) {
+    return switch (error.code) {
+      'invalid_credentials' => l.authInvalid,
+      'email_not_confirmed' => l.authUnconfirmed,
+      'over_request_rate_limit' || 'over_email_send_rate_limit' => l.authRateLimit,
+      'weak_password' => l.authWeakPassword,
+      _ => l.authFailed,
+    };
+  }
+  return l.authFailed;
+}
+
+String genreLabel(BuildContext context, String key) {
+  final l = AppLocalizations.of(context)!;
+  return switch (key) {
+    'romance' => l.genreRomance, 'comedy' => l.genreComedy,
+    'fantasy' => l.genreFantasy, 'music' => l.genreMusic,
+    'drama' => l.genreDrama, 'mystery' => l.genreMystery,
+    'family' => l.genreFamily, 'action' => l.genreAction,
+    'thriller' => l.genreThriller, _ => key,
+  };
+}
+String moodLabel(BuildContext context, DramaMood mood) {
+  final l = AppLocalizations.of(context)!;
+  return switch (mood) {
+    DramaMood.romantic => l.dnaRomantic, DramaMood.emotional => l.dnaEmotional,
+    DramaMood.funny => l.dnaFunny, DramaMood.thriller => l.dnaThriller,
+    DramaMood.comfort => l.dnaComfort,
+  };
+}
+String watchStatusLabel(BuildContext context, WatchStatus status) {
+  final l = AppLocalizations.of(context)!;
+  return switch (status) {
+    WatchStatus.planned => l.watchPlanned, WatchStatus.watching => l.watchWatching,
+    WatchStatus.completed => l.watchCompleted, WatchStatus.dropped => l.watchDropped,
+  };
+}
